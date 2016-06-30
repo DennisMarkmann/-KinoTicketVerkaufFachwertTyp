@@ -33,10 +33,11 @@ public class GeldbetragTest
     public void testeGeldbetragKonstruktoren()
     {
         Geldbetrag betragEins = new Geldbetrag(_wertEins);
-        Geldbetrag betragZwei = new Geldbetrag(_wertZweiCent);
+        Geldbetrag betragZwei = new Geldbetrag(_wertZweiEuro, _wertZweiCent);
 
         assertEquals(_wertEinsEuro, betragEins.getEuroBetrag());
         assertEquals(_wertEinsCent, betragEins.getCentBetrag());
+        assertEquals(_wertZweiEuro, betragZwei.getEuroBetrag());
         assertEquals(_wertZweiCent, betragZwei.getCentBetrag());
     }
 

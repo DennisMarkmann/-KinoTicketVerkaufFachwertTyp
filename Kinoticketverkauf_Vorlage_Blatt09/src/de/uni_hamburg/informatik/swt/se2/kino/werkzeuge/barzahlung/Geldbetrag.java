@@ -1,6 +1,6 @@
 package de.uni_hamburg.informatik.swt.se2.kino.werkzeuge.barzahlung;
 
-public class Geldbetrag
+class Geldbetrag
 {
     private int _euroBetrag = 0;
     private int _centBetrag = 0;
@@ -23,9 +23,10 @@ public class Geldbetrag
         }
     }
 
-    Geldbetrag(int wert)
+    Geldbetrag(int euroBetrag, int centBetrag)
     {
-        _centBetrag = wert;
+        _euroBetrag = euroBetrag;
+        _centBetrag = centBetrag;
     }
 
     Geldbetrag addiere(Geldbetrag additionsBetrag)
