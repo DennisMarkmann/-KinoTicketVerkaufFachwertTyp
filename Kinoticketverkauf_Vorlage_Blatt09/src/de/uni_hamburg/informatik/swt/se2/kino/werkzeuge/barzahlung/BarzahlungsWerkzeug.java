@@ -10,8 +10,6 @@ import java.awt.event.WindowEvent;
 import de.uni_hamburg.informatik.swt.se2.kino.werkzeuge.ObservableSubwerkzeug;
 
 /**
- * TODO für Blatt 8: Löschen
- * 
  * Das Barzahlungswerkzeug behandelt die Kasseneingabe. Es ermöglicht die
  * Eingabe eines gezahlten Betrags und ermittelt automatisch den Restbetrag zur
  * Unterstützung des Verkaufs.
