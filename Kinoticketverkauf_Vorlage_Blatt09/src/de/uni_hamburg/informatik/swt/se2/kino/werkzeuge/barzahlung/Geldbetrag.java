@@ -16,7 +16,7 @@ class Geldbetrag
     {
         _euroBetrag = euroBetrag;
         _centBetrag = centBetrag;
-        haendleCentUeberschuss(this);
+        haendleEuroCentUeberschuss(this);
     }
 
     /**
@@ -35,7 +35,7 @@ class Geldbetrag
 
         _euroBetrag = euroBetrag;
         _centBetrag = centBetrag;
-        haendleCentUeberschuss(this);
+        haendleEuroCentUeberschuss(this);
     }
 
     /**
@@ -77,7 +77,7 @@ class Geldbetrag
 
         _euroBetrag += additionsBetrag.getEuroBetrag();
         _centBetrag += additionsBetrag.getCentBetrag();
-        haendleCentUeberschuss(this);
+        haendleEuroCentUeberschuss(this);
         return this;
     }
 
@@ -248,9 +248,10 @@ class Geldbetrag
     /**
      * Gleicht negative oder mehr als zweistellige Centbetraege an indem er diese in Euro umwandelt.
      */
-    private Geldbetrag haendleCentUeberschuss(Geldbetrag betrag)
+    private Geldbetrag haendleEuroCentUeberschuss(Geldbetrag betrag)
     {
         int euroAnpassung = 0;
+        //Fall: Eurobetrag positiv, Centbetrag negativ: Verringerung des Eurobetrages bis Centbetrag positiv.
         while (betrag.getCentBetrag() < 0)
         {
             if (betrag.getEuroBetrag() < 0 && betrag.getCentBetrag() > -100)
@@ -260,21 +261,30 @@ class Geldbetrag
             euroAnpassung--;
             betrag.setCentBetrag(betrag.getCentBetrag() + 100);
         }
+
+        //Fall: Großer Centbetrag von 100 Cent+ soll in entsprechend viele Euro umgewandelt werden.
         while (betrag.getCentBetrag() >= 100)
         {
             euroAnpassung++;
             betrag.setCentBetrag(betrag.getCentBetrag() - 100);
         }
+        betrag.setEuroBetrag(betrag.getEuroBetrag() + euroAnpassung);
 
-        if (betrag.getEuroBetrag() < 0)
-        {
-            betrag.setEuroBetrag(betrag.getEuroBetrag() - euroAnpassung);
-        }
-        else
-        {
-            betrag.setEuroBetrag(betrag.getEuroBetrag() + euroAnpassung);
-        }
+        haendleEuroUeberschuss(betrag);
+        return betrag;
+    }
 
+    /**
+     * Gleicht negative oder mehr als zweistellige Centbetraege an indem er diese in Euro umwandelt.
+     */
+    private Geldbetrag haendleEuroUeberschuss(Geldbetrag betrag)
+    {
+        //Fall: zB. 10 / 20 - 11 / 10 = -1 / 10 --> 0 / -90
+        if (betrag.getEuroBetrag() < 0 && betrag.getCentBetrag() > 0)
+        {
+            betrag.setCentBetrag(betrag.getCentBetrag() - 100);
+            betrag.setEuroBetrag(betrag.getEuroBetrag() + 1);
+        }
         return betrag;
     }
 
@@ -332,7 +342,7 @@ class Geldbetrag
 
         _euroBetrag *= faktor;
         _centBetrag *= faktor;
-        haendleCentUeberschuss(this);
+        haendleEuroCentUeberschuss(this);
         return this;
     }
 
@@ -371,7 +381,7 @@ class Geldbetrag
 
         _euroBetrag -= subtraktionsBetrag.getEuroBetrag();
         _centBetrag -= subtraktionsBetrag.getCentBetrag();
-        haendleCentUeberschuss(this);
+        haendleEuroCentUeberschuss(this);
         return this;
     }
 }

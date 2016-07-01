@@ -8,9 +8,10 @@
 
 • Lässt euer Fachwert negative Beträge zu? Erläutert an konkreten Bespielen welche Konsequenzen eure Entscheidung hat.
  
-	Ja, tut er. Dies macht in unserem Fall Sinn, da wir bei der Differenzberechnung auch gerne wissen wollten, ob der erste Betrag 
-	größer oder kleiner war als der zweite. Als Konsequenz mussten wir in der Anzeige den formatierten String anpassen 
-	(Das Minus entfernen).
+	Ja, tut er. Dies macht in unserem Fall Sinn, da wir bei der Differenzberechnung auch gerne wissen wollten,
+	ob der erste Betrag größer oder kleiner war als der zweite.
+	Als Konsequenz mussten wir in der Anzeige den formatierten String anpassen (Das Minus entfernen).
+	Ausnahmefall bei der Euro zu Cent Konvertierung: zB. 10,20 - 11,10 = -1EE + 10CC --> 0 / -90 -> 0,90
 
 
 • Welche Schnittstelle hat der von euch vorgeschlagene Fachwerttyp? Denkt hierbei auch an das Vertragsmodell.
