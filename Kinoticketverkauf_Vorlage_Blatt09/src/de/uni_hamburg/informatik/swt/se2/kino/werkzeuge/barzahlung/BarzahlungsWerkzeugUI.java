@@ -21,7 +21,7 @@ import javax.swing.JTextField;
  * Klasse BarzahlungsWerkzeugUI ist die GUI für die Barbezahlung. Sie besteht
  * aus drei großen Eingabefeldern, von denen das mittlere zur Eingabe gedacht
  * ist.
- * 
+ *
  * @author SE2-Team
  * @version SoSe 2016
  */
@@ -56,71 +56,93 @@ class BarzahlungsWerkzeugUI
     }
 
     /**
-     * Zeigt das Fenster an
+     * Erstellt das Hauptpanel mit den drei Anzeigen für die Beträge und
+     * beschriftet diese sinnvoll.
+     *
+     * @return das Panel mit den Anzeigen für die Beträge
      */
-    public void zeigeAn()
+    private JPanel erstelleBetragsPanel()
     {
-        _dialog.setLocationRelativeTo(null);
-        _dialog.setVisible(true);
+        JPanel betraege = new JPanel();
+        betraege.setLayout(new BoxLayout(betraege, BoxLayout.Y_AXIS));
+        initPreisTextfeld();
+        betraege.add(erstelleLayoutPanel("Preis", _preisTextfield));
+        initGezahltTextfield();
+        betraege.add(erstelleLayoutPanel("Gezahlt", _gezahltTextfield));
+        initRestbetragTextfield();
+        betraege.add(erstelleRestbetragPanel());
+
+        return betraege;
     }
 
     /**
-     * Verbirgt das Fenster.
+     * Erstellt das ButtonPanel mit Ok und Abbrechen
+     *
+     * @return das ButtonPanel
      */
-    public void verberge()
+    private JPanel erstelleButtonPanel()
     {
-        _dialog.setVisible(false);
+        JPanel rueckgabePanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
+        _geldErhaltenButton = new JButton(OK_BUTTON_TEXT);
+        rueckgabePanel.add(_geldErhaltenButton);
+        _abbrechenButton = new JButton("Abbrechen");
+        rueckgabePanel.add(_abbrechenButton);
+        return rueckgabePanel;
     }
 
     /**
-     * Markiert das Gezahlt-Textfeld als ausreichend (grün) oder als
-     * nichtausrechend (rot)
-     * 
-     * @param ausreichend true, wenn es als ausreichend markiert werden soll,
-     *            sonst false
+     * Erzeugt ein Textfeld mit Beschriftung in besonderer Anordnung-
+     *
+     * @param titel Beschriftung des Textfeldes
+     * @param component das Textfeld (oder eine andere Komponente)
+     * @return ein Panel mit dem beschrifteten Textfeld
      */
-    public void markiereGezahltTextfield(boolean ausreichend)
+    private Component erstelleLayoutPanel(String titel, JComponent component)
     {
-        markiereTextfield(_gezahltTextfield, ausreichend);
+        JPanel rueckgabePanel = new JPanel(new BorderLayout());
+
+        JLabel label = new JLabel(titel);
+        label.setHorizontalAlignment(JLabel.LEFT);
+        rueckgabePanel.add(label, BorderLayout.NORTH);
+        rueckgabePanel.add(component, BorderLayout.CENTER);
+
+        return rueckgabePanel;
+    }
+
+    private JPanel erstelleRestbetragPanel()
+    {
+        JPanel restbetragPanel = new JPanel(new BorderLayout());
+
+        _restBetragPanel = new JLabel(NOCH_ZU_ZAHLEN);
+        _restBetragPanel.setHorizontalAlignment(JLabel.LEFT);
+        restbetragPanel.add(_restBetragPanel, BorderLayout.NORTH);
+        restbetragPanel.add(_restbetragTextfield, BorderLayout.CENTER);
+        return restbetragPanel;
     }
 
     /**
-     * Markiert das Restbetrag-Textfeld als Rückgeld-Feld (grün), wenn
-     * ausreichend gezahlt wurde, oder als "Noch zu zahlen"-Feld (rot)
-     * 
-     * @param ausreichend true, wenn es als fehlerhaft markiert werden soll,
-     *            sonst false
+     * @return Abbrechen-Button
      */
-    public void markiereRestbetragTextfield(boolean ausreichend)
+    public JButton getAbbrechenButton()
     {
-        if (ausreichend)
-        {
-            _restBetragPanel.setText(RUECKGELD);
-        }
-        else
-        {
-            _restBetragPanel.setText(NOCH_ZU_ZAHLEN);
-        }
-        markiereTextfield(_restbetragTextfield, ausreichend);
+        return _abbrechenButton;
     }
 
     /**
-     * Markiert ein spezifiziertes Textfield.
-     * 
-     * @param textfield ein zu markierendes Textfield
-     * @param normal true, wenn ein normaler Textfeldstatus vorliegt, sonst
-     *            false.
+     * @return das Dialogfenster, um zum Beispiel einen WindowListener daran zu
+     *         registrieren.
      */
-    private void markiereTextfield(JTextField textfield, boolean normal)
+    public JDialog getDialog()
     {
-        if (normal)
-        {
-            textfield.setForeground(BarzahlungsWerkzeugUI.SCHRIFTFARBE_NORMAL);
-        }
-        else
-        {
-            textfield.setForeground(BarzahlungsWerkzeugUI.SCHRIFTFARBE_FEHLER);
-        }
+        return _dialog;
+    }
+
+    /**
+     * @return GeldErhalten-Button
+     */
+    public JButton getGeldErhaltenButton()
+    {
+        return _geldErhaltenButton;
     }
 
     /**
@@ -147,31 +169,6 @@ class BarzahlungsWerkzeugUI
         return _restbetragTextfield;
     }
 
-    /**
-     * @return GeldErhalten-Button
-     */
-    public JButton getGeldErhaltenButton()
-    {
-        return _geldErhaltenButton;
-    }
-
-    /**
-     * @return Abbrechen-Button
-     */
-    public JButton getAbbrechenButton()
-    {
-        return _abbrechenButton;
-    }
-
-    /**
-     * @return das Dialogfenster, um zum Beispiel einen WindowListener daran zu
-     *         registrieren.
-     */
-    public JDialog getDialog()
-    {
-        return _dialog;
-    }
-
     private void initDialog()
     {
         _dialog = new JDialog((Frame) null, BARZAHLUNG_TITEL);
@@ -184,52 +181,6 @@ class BarzahlungsWerkzeugUI
 
         _dialog.pack();
         _dialog.setResizable(false);
-    }
-
-    /**
-     * Erstellt das ButtonPanel mit Ok und Abbrechen
-     * 
-     * @return das ButtonPanel
-     */
-    private JPanel erstelleButtonPanel()
-    {
-        JPanel rueckgabePanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
-        _geldErhaltenButton = new JButton(OK_BUTTON_TEXT);
-        rueckgabePanel.add(_geldErhaltenButton);
-        _abbrechenButton = new JButton("Abbrechen");
-        rueckgabePanel.add(_abbrechenButton);
-        return rueckgabePanel;
-    }
-
-    /**
-     * Erstellt das Hauptpanel mit den drei Anzeigen für die Beträge und
-     * beschriftet diese sinnvoll.
-     * 
-     * @return das Panel mit den Anzeigen für die Beträge
-     */
-    private JPanel erstelleBetragsPanel()
-    {
-        JPanel betraege = new JPanel();
-        betraege.setLayout(new BoxLayout(betraege, BoxLayout.Y_AXIS));
-        initPreisTextfeld();
-        betraege.add(erstelleLayoutPanel("Preis", _preisTextfield));
-        initGezahltTextfield();
-        betraege.add(erstelleLayoutPanel("Gezahlt", _gezahltTextfield));
-        initRestbetragTextfield();
-        betraege.add(erstelleRestbetragPanel());
-
-        return betraege;
-    }
-
-    private void initRestbetragTextfield()
-    {
-        _restbetragTextfield = new JTextField(TEXTFELDBREITE);
-        _restbetragTextfield.setHorizontalAlignment(JTextField.RIGHT);
-        _restbetragTextfield.setBackground(HINTERGRUNDFARBE);
-        _restbetragTextfield.setForeground(SCHRIFTFARBE_NORMAL);
-        _restbetragTextfield.setEditable(false);
-        _restbetragTextfield.setFocusable(false);
-        _restbetragTextfield.setFont(SCHRIFTART_KLEIN);
     }
 
     private void initGezahltTextfield()
@@ -255,34 +206,83 @@ class BarzahlungsWerkzeugUI
         _preisTextfield.setFocusable(false);
     }
 
-    /**
-     * Erzeugt ein Textfeld mit Beschriftung in besonderer Anordnung-
-     * 
-     * @param titel Beschriftung des Textfeldes
-     * @param component das Textfeld (oder eine andere Komponente)
-     * @return ein Panel mit dem beschrifteten Textfeld
-     */
-    private Component erstelleLayoutPanel(String titel, JComponent component)
+    private void initRestbetragTextfield()
     {
-        JPanel rueckgabePanel = new JPanel(new BorderLayout());
-
-        JLabel label = new JLabel(titel);
-        label.setHorizontalAlignment(JLabel.LEFT);
-        rueckgabePanel.add(label, BorderLayout.NORTH);
-        rueckgabePanel.add(component, BorderLayout.CENTER);
-
-        return rueckgabePanel;
+        _restbetragTextfield = new JTextField(TEXTFELDBREITE);
+        _restbetragTextfield.setHorizontalAlignment(JTextField.RIGHT);
+        _restbetragTextfield.setBackground(HINTERGRUNDFARBE);
+        _restbetragTextfield.setForeground(SCHRIFTFARBE_NORMAL);
+        _restbetragTextfield.setEditable(false);
+        _restbetragTextfield.setFocusable(false);
+        _restbetragTextfield.setFont(SCHRIFTART_KLEIN);
     }
 
-    private JPanel erstelleRestbetragPanel()
+    /**
+     * Markiert das Gezahlt-Textfeld als ausreichend (grün) oder als
+     * nichtausrechend (rot)
+     *
+     * @param ausreichend true, wenn es als ausreichend markiert werden soll,
+     *            sonst false
+     */
+    public void markiereGezahltTextfield(boolean ausreichend)
     {
-        JPanel restbetragPanel = new JPanel(new BorderLayout());
+        markiereTextfield(_gezahltTextfield, ausreichend);
+    }
 
-        _restBetragPanel = new JLabel(NOCH_ZU_ZAHLEN);
-        _restBetragPanel.setHorizontalAlignment(JLabel.LEFT);
-        restbetragPanel.add(_restBetragPanel, BorderLayout.NORTH);
-        restbetragPanel.add(_restbetragTextfield, BorderLayout.CENTER);
-        return restbetragPanel;
+    /**
+     * Markiert das Restbetrag-Textfeld als Rückgeld-Feld (grün), wenn
+     * ausreichend gezahlt wurde, oder als "Noch zu zahlen"-Feld (rot)
+     *
+     * @param ausreichend true, wenn es als fehlerhaft markiert werden soll,
+     *            sonst false
+     */
+    public void markiereRestbetragTextfield(boolean ausreichend)
+    {
+        if (ausreichend)
+        {
+            _restBetragPanel.setText(RUECKGELD);
+        }
+        else
+        {
+            _restBetragPanel.setText(NOCH_ZU_ZAHLEN);
+        }
+        markiereTextfield(_restbetragTextfield, ausreichend);
+    }
+
+    /**
+     * Markiert ein spezifiziertes Textfield.
+     *
+     * @param textfield ein zu markierendes Textfield
+     * @param normal true, wenn ein normaler Textfeldstatus vorliegt, sonst
+     *            false.
+     */
+    private void markiereTextfield(JTextField textfield, boolean normal)
+    {
+        if (normal)
+        {
+            textfield.setForeground(BarzahlungsWerkzeugUI.SCHRIFTFARBE_NORMAL);
+        }
+        else
+        {
+            textfield.setForeground(BarzahlungsWerkzeugUI.SCHRIFTFARBE_FEHLER);
+        }
+    }
+
+    /**
+     * Verbirgt das Fenster.
+     */
+    public void verberge()
+    {
+        _dialog.setVisible(false);
+    }
+
+    /**
+     * Zeigt das Fenster an
+     */
+    public void zeigeAn()
+    {
+        _dialog.setLocationRelativeTo(null);
+        _dialog.setVisible(true);
     }
 
 }

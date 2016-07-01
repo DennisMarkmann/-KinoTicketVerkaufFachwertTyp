@@ -30,18 +30,6 @@ public class GeldbetragTest
     }
 
     @Test
-    public void testeGeldbetragKonstruktoren()
-    {
-        Geldbetrag betragEins = new Geldbetrag(_wertEins);
-        Geldbetrag betragZwei = new Geldbetrag(_wertZweiEuro, _wertZweiCent);
-
-        assertEquals(_wertEinsEuro, betragEins.getEuroBetrag());
-        assertEquals(_wertEinsCent, betragEins.getCentBetrag());
-        assertEquals(_wertZweiEuro, betragZwei.getEuroBetrag());
-        assertEquals(_wertZweiCent, betragZwei.getCentBetrag());
-    }
-
-    @Test
     public void testeAddiereGeldbetraege()
     {
         Geldbetrag grundBetrag = new Geldbetrag(_wertEins);
@@ -56,6 +44,43 @@ public class GeldbetragTest
 
         assertEquals(euroGesamt, grundBetrag.getEuroBetrag());
         assertEquals(centGesamt, grundBetrag.getCentBetrag());
+    }
+
+    @Test
+    public void testeGeldbetragKonstruktoren()
+    {
+        Geldbetrag betragEins = new Geldbetrag(_wertEins);
+        Geldbetrag betragZwei = new Geldbetrag(_wertZweiEuro, _wertZweiCent);
+
+        assertEquals(_wertEinsEuro, betragEins.getEuroBetrag());
+        assertEquals(_wertEinsCent, betragEins.getCentBetrag());
+        assertEquals(_wertZweiEuro, betragZwei.getEuroBetrag());
+        assertEquals(_wertZweiCent, betragZwei.getCentBetrag());
+    }
+
+    @Test
+    public void testeGibGeldbetragDarstellung()
+    {
+        Geldbetrag geldbetrag = new Geldbetrag(_wertEins);
+        String stringDarstellung = geldbetrag.gibGeldbetragDarstellung(false);
+        assertEquals(_wertEinsEuro + "," + _wertEinsCent, stringDarstellung);
+    }
+
+    @Test
+    public void testeMultipliziere()
+    {
+        Geldbetrag geldbetrag = new Geldbetrag(_wertEins);
+        geldbetrag = geldbetrag.multipliziere(_faktor);
+
+        int expectedEuroBetrag = _wertEinsEuro * _faktor;
+        int expectedCentBetrag = _wertEinsCent * _faktor;
+
+        int zuAddierendeEuro = expectedCentBetrag / 100;
+        expectedCentBetrag -= zuAddierendeEuro * 100;
+        expectedEuroBetrag += zuAddierendeEuro;
+
+        assertEquals(expectedEuroBetrag, geldbetrag.getEuroBetrag());
+        assertEquals(expectedCentBetrag, geldbetrag.getCentBetrag());
     }
 
     @Test
@@ -78,30 +103,5 @@ public class GeldbetragTest
 
         assertEquals(euroGesamt, grundBetrag.getEuroBetrag());
         assertEquals(centGesamt, grundBetrag.getCentBetrag());
-    }
-
-    @Test
-    public void testeMultipliziere()
-    {
-        Geldbetrag geldbetrag = new Geldbetrag(_wertEins);
-        geldbetrag = geldbetrag.multipliziere(_faktor);
-
-        int expectedEuroBetrag = _wertEinsEuro * _faktor;
-        int expectedCentBetrag = _wertEinsCent * _faktor;
-
-        int zuAddierendeEuro = expectedCentBetrag / 100;
-        expectedCentBetrag -= zuAddierendeEuro * 100;
-        expectedEuroBetrag += zuAddierendeEuro;
-
-        assertEquals(expectedEuroBetrag, geldbetrag.getEuroBetrag());
-        assertEquals(expectedCentBetrag, geldbetrag.getCentBetrag());
-    }
-
-    @Test
-    public void testeGibGeldbetragDarstellung()
-    {
-        Geldbetrag geldbetrag = new Geldbetrag(_wertEins);
-        String stringDarstellung = geldbetrag.gibGeldbetragDarstellung(false);
-        assertEquals(_wertEinsEuro + "," + _wertEinsCent, stringDarstellung);
     }
 }
