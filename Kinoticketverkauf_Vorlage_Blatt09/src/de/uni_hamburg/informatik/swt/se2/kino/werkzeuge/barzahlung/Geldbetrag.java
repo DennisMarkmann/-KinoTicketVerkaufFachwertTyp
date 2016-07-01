@@ -78,10 +78,7 @@ class Geldbetrag
         int euroBetrag = _euroBetrag - betrag.getEuroBetrag();
         int centBetrag = _centBetrag - betrag.getCentBetrag();
         Geldbetrag differenz = new Geldbetrag(euroBetrag, centBetrag);
-        haendleEuroUeberschussFuerDifferenz(differenz);
-        haendleCentUeberschuss(differenz);
         return differenz;
-
     }
 
     /**
@@ -237,7 +234,7 @@ class Geldbetrag
         int euroAnpassung = 0;
         while (betrag.getCentBetrag() < 0)
         {
-            if (betrag.getEuroBetrag() == 0)
+            if (betrag.getEuroBetrag() < 0 && betrag.getCentBetrag() > -100)
             {
                 break;
             }
@@ -249,24 +246,16 @@ class Geldbetrag
             euroAnpassung++;
             betrag.setCentBetrag(betrag.getCentBetrag() - 100);
         }
-        betrag.setEuroBetrag(betrag.getEuroBetrag() + euroAnpassung);
-        return betrag;
-    }
 
-    /**
-     * Gleicht negative Eurobetraege an indem er diese in Cent umwandelt.
-     * Nur fuer Differenz Berechnung gedacht.
-     */
-    private Geldbetrag haendleEuroUeberschussFuerDifferenz(Geldbetrag betrag)
-    {
-        //TODO fix?
-        int centAnpassung = 0;
-        while (betrag.getEuroBetrag() < 0)
+        if (betrag.getEuroBetrag() < 0)
         {
-            centAnpassung = centAnpassung - 100;
-            betrag.setEuroBetrag(betrag.getEuroBetrag() + 1);
+            betrag.setEuroBetrag(betrag.getEuroBetrag() - euroAnpassung);
         }
-        betrag.setCentBetrag(betrag.getCentBetrag() + centAnpassung);
+        else
+        {
+            betrag.setEuroBetrag(betrag.getEuroBetrag() + euroAnpassung);
+        }
+
         return betrag;
     }
 
@@ -328,11 +317,21 @@ class Geldbetrag
         return this;
     }
 
+    /**
+     * Setter fuer Centbetraege.
+     *
+     * @param _centBetrag der gesetzt werden soll.
+     */
     public void setCentBetrag(int _centBetrag)
     {
         this._centBetrag = _centBetrag;
     }
 
+    /**
+     * Setter fuer Eurobetraege.
+     *
+     * @param _euroBetrag  der gesetzt werden soll.
+     */
     public void setEuroBetrag(int _euroBetrag)
     {
         this._euroBetrag = _euroBetrag;

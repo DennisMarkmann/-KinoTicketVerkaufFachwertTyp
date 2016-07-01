@@ -1,6 +1,7 @@
 package de.uni_hamburg.informatik.swt.se2.kino.werkzeuge.barzahlung;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -47,6 +48,28 @@ public class GeldbetragTest
     }
 
     @Test
+    public void testeBerechneDifferenz()
+    {
+        Geldbetrag grundBetrag = new Geldbetrag(_wertZwei);
+        Geldbetrag zuSubtrahierenderBetrag = new Geldbetrag(_wertEins);
+        grundBetrag = grundBetrag.berechneDifferenz(zuSubtrahierenderBetrag);
+
+        int centGesamt = _wertZweiCent - _wertEinsCent;
+        int euroGesamt = _wertZweiEuro - _wertEinsEuro;
+
+        int zuSubtrahierendeEuro = 0;
+        while (centGesamt < 0)
+        {
+            zuSubtrahierendeEuro++;
+            centGesamt += 100;
+        }
+        euroGesamt -= zuSubtrahierendeEuro;
+
+        assertEquals(euroGesamt, grundBetrag.getEuroBetrag());
+        assertEquals(centGesamt, grundBetrag.getCentBetrag());
+    }
+
+    @Test
     public void testeGeldbetragKonstruktoren()
     {
         Geldbetrag betragEins = new Geldbetrag(_wertEins);
@@ -64,6 +87,24 @@ public class GeldbetragTest
         Geldbetrag geldbetrag = new Geldbetrag(_wertEins);
         String stringDarstellung = geldbetrag.gibGeldbetragDarstellung(false);
         assertEquals(_wertEinsEuro + "," + _wertEinsCent, stringDarstellung);
+    }
+
+    @Test
+    public void testeIstBetragNegativ()
+    {
+        Geldbetrag grundBetrag = new Geldbetrag(_wertEins);
+        Geldbetrag zuSubtrahierenderBetrag = new Geldbetrag(_wertZwei);
+        grundBetrag = grundBetrag.subtrahiere(zuSubtrahierenderBetrag);
+        assertTrue(grundBetrag.istBetragNegativ());
+    }
+
+    @Test
+    public void testeIstBetragNull()
+    {
+        Geldbetrag grundBetrag = new Geldbetrag(_wertEins);
+        Geldbetrag zuSubtrahierenderBetrag = new Geldbetrag(_wertEins);
+        grundBetrag = grundBetrag.subtrahiere(zuSubtrahierenderBetrag);
+        assertTrue(grundBetrag.istBetragNull());
     }
 
     @Test
@@ -86,12 +127,12 @@ public class GeldbetragTest
     @Test
     public void testeSubtrahiereGeldbetraege()
     {
-        Geldbetrag grundBetrag = new Geldbetrag(_wertEins);
-        Geldbetrag zuSubtrahierenderBetrag = new Geldbetrag(_wertZwei);
+        Geldbetrag grundBetrag = new Geldbetrag(_wertZwei);
+        Geldbetrag zuSubtrahierenderBetrag = new Geldbetrag(_wertEins);
         grundBetrag = grundBetrag.subtrahiere(zuSubtrahierenderBetrag);
 
-        int centGesamt = _wertEinsCent - _wertZweiCent;
-        int euroGesamt = _wertEinsEuro - _wertZweiEuro;
+        int centGesamt = _wertZweiCent - _wertEinsCent;
+        int euroGesamt = _wertZweiEuro - _wertEinsEuro;
 
         int zuSubtrahierendeEuro = 0;
         while (centGesamt < 0)
