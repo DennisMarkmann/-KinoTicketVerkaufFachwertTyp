@@ -176,7 +176,7 @@ public class BarzahlungsWerkzeug extends ObservableSubwerkzeug
             _ausreichenderGeldbetrag = differenz.istBetragNull() || differenz.istBetragNegativ();
             zeigeRestbetrag(differenz);
         }
-        catch (NumberFormatException ignore)
+        catch (AssertionError ignore)
         {
             _ausreichenderGeldbetrag = false;
             zeigeFehlertext();
