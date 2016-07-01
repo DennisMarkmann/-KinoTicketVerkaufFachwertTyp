@@ -35,16 +35,16 @@ class Geldbetrag
      * @param euroBetrag des Betrages.
      * @param centBetrag des Betrages.
      * 
-     * @require euroBetrag > 0
-     * @require centBetrag > 0
+     * @require euroBetrag >= 0 || centBetrag >= 0
      */
     Geldbetrag(int euroBetrag, int centBetrag)
     {
-        assert euroBetrag > 0 : "Vorbedingung verletzt: euroBetrag > 0";
-        assert centBetrag > 0 : "Vorbedingung verletzt: centBetrag > 0";
+        //TODO abfangen das das hier eintritt
+        //        assert euroBetrag >= 0 || centBetrag >= 0 : "Vorbedingung verletzt: euroBetrag >= 0 || centBetrag >= 0";
 
         _euroBetrag = euroBetrag;
         _centBetrag = centBetrag;
+        haendleCentUeberschuss();
     }
 
     /**
@@ -115,7 +115,7 @@ class Geldbetrag
             euroAnpassung--;
             _centBetrag += 100;
         }
-        while (_centBetrag > 100)
+        while (_centBetrag >= 100)
         {
             euroAnpassung++;
             _centBetrag -= 100;
@@ -136,7 +136,9 @@ class Geldbetrag
     {
         assert wert != null : "Vorbedingung verletzt: wert != null";
 
-        if (containsInvalidSymbols(wert) || containsMultipleCommas(wert) || containsInvalidCentValues(wert))
+        if (containsInvalidSymbols(wert) || containsMultipleCommas(wert))
+        //TODO rethink
+        //                || containsInvalidCentValues(wert))
         {
             return false;
         }
@@ -250,6 +252,86 @@ class Geldbetrag
      */
     String gibGeldbetragDarstellung()
     {
-        return _euroBetrag + "," + _centBetrag;
+        return _euroBetrag + "," + correctCentBetragFormat(_centBetrag);
+    }
+
+    /**
+     * Korrigiert den Centbetrag auf eine korrekte Darstellung in Form von zwei Stellen.
+     * 
+     * @param _centBetrag des Betrages.
+     * 
+     * @return format korrigierten Cent String.
+     */
+    private String correctCentBetragFormat(int _centBetrag)
+    {
+        String centString = "" + _centBetrag;
+        if (_centBetrag < 10)
+        {
+            centString = "0" + centString;
+        }
+        return centString;
+    }
+
+    /**
+     * Prueft ob der Betrag 0 Euro und 0 Cent betraegt.
+     * 
+     * @return true: 0 Euro und 0 Cent
+     */
+    boolean istBetragNull()
+    {
+        return getEuroBetrag() == 0 && getCentBetrag() == 0;
+    }
+
+    /**
+     * Berechnet die Differenz zweier Betraege.
+     * 
+     * @param betrag mit dem die Differenz berechnet werden soll.
+     * 
+     * @return Differenz Betrag.
+     * 
+     * @require betrag != null
+     */
+    Geldbetrag berechneDifferenz(Geldbetrag betrag)
+    {
+        assert betrag != null : "Vorbedingung verletzt: betrag != null";
+
+        int euroBetrag = _euroBetrag - betrag.getEuroBetrag();
+        int centBetrag = _centBetrag - betrag.getCentBetrag();
+        Geldbetrag differenz = new Geldbetrag(euroBetrag, centBetrag);
+        haendleCentUeberschussFuerDifferenz(differenz);
+        return differenz;
+
+    }
+
+    public void setEuroBetrag(int _euroBetrag)
+    {
+        this._euroBetrag = _euroBetrag;
+    }
+
+    public void setCentBetrag(int _centBetrag)
+    {
+        this._centBetrag = _centBetrag;
+    }
+
+    /**
+     * Gleicht negative oder mehr als zweistellige Centbetraege an indem er diese in Euro umwandelt.
+     * Nur fuer Differenz Berechnung gedacht.
+     */
+    private Geldbetrag haendleCentUeberschussFuerDifferenz(Geldbetrag betrag)
+    {
+        //TODO bullshit solution (duplicate code)
+        int euroAnpassung = 0;
+        while (betrag.getCentBetrag() < 0)
+        {
+            euroAnpassung--;
+            betrag.setCentBetrag(betrag.getCentBetrag() + 100);
+        }
+        while (betrag.getCentBetrag() >= 100)
+        {
+            euroAnpassung++;
+            betrag.setCentBetrag(betrag.getCentBetrag() - 100);
+        }
+        betrag.setEuroBetrag(betrag.getEuroBetrag() + euroAnpassung);
+        return betrag;
     }
 }
