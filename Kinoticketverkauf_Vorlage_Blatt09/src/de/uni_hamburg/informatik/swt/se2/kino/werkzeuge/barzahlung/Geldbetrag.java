@@ -5,13 +5,15 @@ class Geldbetrag
     private int _euroBetrag = 0;
     private int _centBetrag = 0;
 
+    /**
+     * 
+     * @param wert
+     * 
+     * @require isValueValid(wert)
+     */
     Geldbetrag(String wert)
     {
-        if (!validate(wert))
-        {
-            return;
-            //TODO ungültig
-        }
+        assert isValueValid(wert) : "Vorbedingung verletzt: isValueValidisValueValid(wert)";
         if (wert.contains(","))
         {
             _euroBetrag = Integer.parseInt(wert.substring(0, wert.indexOf(",")));
@@ -69,10 +71,47 @@ class Geldbetrag
         _euroBetrag += euroAnpassung;
     }
 
-    private boolean validate(String wert)
+    private boolean isValueValid(String wert)
     {
-        //TODO check more stupid stuff
-        //Symbols / Centvalue > 100 / Centvalue only 1 long
+        if (containsInvalidSymbols(wert) || containsMultipleCommas(wert) || containsInvalidCentValues(wert))
+        {
+            return false;
+        }
+        return true;
+    }
+
+    private boolean containsInvalidSymbols(String wert)
+    {
+        for (char c : wert.toCharArray())
+        {
+            if (!Character.isDigit(c) && c != ',')
+            {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    private boolean containsInvalidCentValues(String wert)
+    {
+        String centString = "";
+        if (wert.contains(","))
+        {
+            centString = wert.substring(wert.indexOf(",") + 1);
+        }
+        else
+        {
+            centString = wert;
+        }
+        if (centString.length() != 2)
+        {
+            return true;
+        }
+        return false;
+    }
+
+    private boolean containsMultipleCommas(String wert)
+    {
         int counter = 0;
         for (char c : wert.toCharArray())
         {
@@ -81,11 +120,11 @@ class Geldbetrag
                 counter++;
                 if (counter == 2)
                 {
-                    return false;
+                    return true;
                 }
             }
         }
-        return true;
+        return false;
     }
 
     public int getEuroBetrag()

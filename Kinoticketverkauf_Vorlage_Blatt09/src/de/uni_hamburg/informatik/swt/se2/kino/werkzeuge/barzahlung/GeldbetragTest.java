@@ -68,7 +68,6 @@ public class GeldbetragTest
         int centGesamt = _wertEinsCent - _wertZweiCent;
         int euroGesamt = _wertEinsEuro - _wertZweiEuro;
 
-        //TODO nicht 1:1 wie im Code
         int zuSubtrahierendeEuro = 0;
         while (centGesamt < 0)
         {
