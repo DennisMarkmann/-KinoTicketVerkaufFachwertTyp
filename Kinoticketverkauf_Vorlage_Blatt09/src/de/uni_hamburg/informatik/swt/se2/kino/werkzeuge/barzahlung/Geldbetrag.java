@@ -6,8 +6,9 @@ class Geldbetrag
     private int _centBetrag = 0;
 
     /**
+     * Konstruktor zur erzeugung eines neuen Geldbetrages.
      * 
-     * @param wert
+     * @param wert der Wert der den Euro- und Centanteil des Betrages festlegt. Muss im Format: "EE,CC" vorliegen.
      * 
      * @require wert != null
      * @require isValueValid(wert)
@@ -29,9 +30,10 @@ class Geldbetrag
     }
 
     /**
+     * Konstruktor zur erzeugung eines neuen Geldbetrages.
      * 
-     * @param euroBetrag
-     * @param centBetrag
+     * @param euroBetrag des Betrages.
+     * @param centBetrag des Betrages.
      * 
      * @require euroBetrag > 0
      * @require centBetrag > 0
@@ -46,9 +48,11 @@ class Geldbetrag
     }
 
     /**
+     * Addiert den uebergebenen Geldbetrag auf diesen Geldbetrag.
      * 
-     * @param additionsBetrag
-     * @return
+     * @param additionsBetrag um den der Geldbetrag erhoeht werden soll.
+     * 
+     * @return neuer Geldbetrag.
      * 
      * @require additionsBetrag != null
      */
@@ -63,9 +67,11 @@ class Geldbetrag
     }
 
     /**
+     * Subtrahiert den uebergebenen Geldbetrag von diesem Geldbetrag.
      * 
-     * @param subtraktionsBetrag
-     * @return
+     * @param subtraktionsBetrag um den der Geldbetrag verringert werden soll.
+     * 
+     * @return neuer Geldbetrag.
      * 
      * @require subtraktionsBetrag != null
      */
@@ -80,22 +86,27 @@ class Geldbetrag
     }
 
     /**
+     * Multipliziert den Geldbetrag mit dem gegebenen Faktor.
      * 
-     * @param multiplikator
-     * @return
+     * @param faktor mit dem der Geldbetrag multipliziert werden soll.
+     * @return neuer Geldbetrag.
      * 
-     * @require multiplikator > 0
+     * @require faktor > 0
      */
-    Geldbetrag multipliziere(int multiplikator)
+    Geldbetrag multipliziere(int faktor)
     {
-        assert multiplikator > 0 : "Vorbedingung verletzt: multiplikator > 0";
+        assert faktor > 0 : "Vorbedingung verletzt: faktor > 0";
 
-        _euroBetrag *= multiplikator;
-        _centBetrag *= multiplikator;
+        _euroBetrag *= faktor;
+        _centBetrag *= faktor;
         haendleCentUeberschuss();
         return this;
     }
 
+    /**
+     * Gleicht negative oder mehr als zweistellige Centbetraege an indem er diese in Euro umwandelt.
+     * Nur intern fuer die jeweiligen Berechnungen gedacht.
+     */
     private void haendleCentUeberschuss()
     {
         int euroAnpassung = 0;
@@ -113,12 +124,13 @@ class Geldbetrag
     }
 
     /**
+     * Prueft ob diverse gueltigkeits Checks Fehler melden und den Wert als ungueltig einstufen. Gueltiges Format: "EE,CC"
      * 
-     * @param wert
-     * @return
+     * @param wert Eingabewert der geprueft werden soll.
+     * 
+     * @return true: Wert ist ungueltig, false: Bedingung erfüllt
      * 
      * @require wert != null
-     *
      */
     private boolean isValueValid(String wert)
     {
@@ -132,9 +144,11 @@ class Geldbetrag
     }
 
     /**
+     * Prueft ob der Wert ungueltige Zeichen enthaelt (Irgendetwas ausser zahlen und Kommas).
      * 
-     * @param wert
-     * @return
+     * @param wert Eingabewert der geprueft werden soll.
+     * 
+     * @return true: enthaelt ungueltige Zeichen, false: Bedingung erfüllt
      * 
      * @require wert != null
      */
@@ -153,9 +167,11 @@ class Geldbetrag
     }
 
     /**
+     * Prueft ob der Wert Centbetraege enthaelt die nicht dem Schema "CC" entsprechen / nicht zweistellig sind.
      * 
-     * @param wert
-     * @return
+     * @param wert Eingabewert der geprueft werden soll.
+     * 
+     * @return true: Format des Centbetrages ungueltig, false: Bedingung erfüllt
      * 
      * @require wert != null
      */
@@ -180,9 +196,11 @@ class Geldbetrag
     }
 
     /**
+     * Prueft ob der Wert mehr als ein Komma enthaelt.
      * 
-     * @param wert
-     * @return
+     * @param wert Eingabewert der geprueft werden soll.
+     * 
+     * @return true: zu viele Kommas, false: Bedingung erfüllt
      * 
      * @require wert != null
      */
@@ -205,16 +223,31 @@ class Geldbetrag
         return false;
     }
 
+    /**
+     * Gibt den aktuellen Euroanteil des Betrages als int wieder.
+     * 
+     * @return den aktuellen Euroanteil des Betrages als int.
+     */
     public int getEuroBetrag()
     {
         return _euroBetrag;
     }
 
+    /**
+     * Gibt den aktuellen Centanteil des Betrages als int wieder.
+     * 
+     * @return den aktuellen Centanteil des Betrages als int.
+     */
     public int getCentBetrag()
     {
         return _centBetrag;
     }
 
+    /**
+     * Gibt den Geldbetrag als String im Format "Eurobetrag,Centbetrag" wieder.
+     * 
+     * @return Geldbetrag als String im Format "Eurobetrag,Centbetrag".
+     */
     String gibGeldbetragDarstellung()
     {
         return _euroBetrag + "," + _centBetrag;

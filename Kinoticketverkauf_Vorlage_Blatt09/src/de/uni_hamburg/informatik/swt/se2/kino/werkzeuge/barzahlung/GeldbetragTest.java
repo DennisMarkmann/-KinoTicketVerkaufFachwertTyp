@@ -13,7 +13,7 @@ public class GeldbetragTest
     private String _wertZwei;
     private int _wertZweiEuro;
     private int _wertZweiCent;
-    private int _multiplikator;
+    private int _faktor;
 
     @Before
     public void createTestData()
@@ -26,7 +26,7 @@ public class GeldbetragTest
         _wertZweiCent = 96;
         _wertZwei = _wertZweiEuro + "," + _wertZweiCent;
 
-        _multiplikator = 5;
+        _faktor = 5;
     }
 
     @Test
@@ -84,10 +84,10 @@ public class GeldbetragTest
     public void testeMultipliziere()
     {
         Geldbetrag geldbetrag = new Geldbetrag(_wertEins);
-        geldbetrag = geldbetrag.multipliziere(_multiplikator);
+        geldbetrag = geldbetrag.multipliziere(_faktor);
 
-        int expectedEuroBetrag = _wertEinsEuro * _multiplikator;
-        int expectedCentBetrag = _wertEinsCent * _multiplikator;
+        int expectedEuroBetrag = _wertEinsEuro * _faktor;
+        int expectedCentBetrag = _wertEinsCent * _faktor;
 
         int zuAddierendeEuro = expectedCentBetrag / 100;
         expectedCentBetrag -= zuAddierendeEuro * 100;
