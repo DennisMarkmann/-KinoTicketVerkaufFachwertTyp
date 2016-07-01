@@ -173,7 +173,7 @@ public class BarzahlungsWerkzeug extends ObservableSubwerkzeug
         {
             Geldbetrag eingabeBetrag = new Geldbetrag(eingabePreis);
             Geldbetrag differenz = (_betrag.berechneDifferenz(eingabeBetrag));
-            _ausreichenderGeldbetrag = differenz.istBetragNull();
+            _ausreichenderGeldbetrag = differenz.istBetragNull() || differenz.istBetragNegativ();
             zeigeRestbetrag(differenz);
         }
         catch (NumberFormatException ignore)
@@ -255,7 +255,7 @@ public class BarzahlungsWerkzeug extends ObservableSubwerkzeug
     private void zeigeRestbetrag(Geldbetrag differenz)
     {
         _ui.getRestbetragTextfield()
-            .setText(differenz.gibGeldbetragDarstellung() + " Euro");
+            .setText(differenz.gibGeldbetragDarstellung(true) + " Euro");
     }
 
     /**
@@ -264,6 +264,6 @@ public class BarzahlungsWerkzeug extends ObservableSubwerkzeug
     private void zeigePreis()
     {
         _ui.getPreisTextfield()
-            .setText(_betrag.gibGeldbetragDarstellung() + " Euro");
+            .setText(_betrag.gibGeldbetragDarstellung(false) + " Euro");
     }
 }

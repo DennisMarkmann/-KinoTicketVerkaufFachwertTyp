@@ -250,9 +250,21 @@ class Geldbetrag
      * 
      * @return Geldbetrag als String im Format "Eurobetrag,Centbetrag".
      */
-    String gibGeldbetragDarstellung()
+    String gibGeldbetragDarstellung(boolean alwaysPositive)
     {
-        return _euroBetrag + "," + correctCentBetragFormat(_centBetrag);
+        StringBuffer sb = new StringBuffer();
+        if (alwaysPositive && _euroBetrag < 0)
+        {
+            sb.append(_euroBetrag * -1);
+        }
+        else
+        {
+            sb.append(_euroBetrag);
+        }
+        sb.append(",");
+        sb = formatCentValueString(sb);
+
+        return sb.toString();
     }
 
     /**
@@ -262,24 +274,40 @@ class Geldbetrag
      * 
      * @return format korrigierten Cent String.
      */
-    private String correctCentBetragFormat(int _centBetrag)
+    private StringBuffer formatCentValueString(StringBuffer sb)
     {
-        String centString = "" + _centBetrag;
-        if (_centBetrag < 10)
+        int centBetrag = _centBetrag;
+        if (centBetrag < 0)
         {
-            centString = "0" + centString;
+            centBetrag *= -1;
         }
-        return centString;
+
+        if (centBetrag < 10)
+        {
+            sb.append("0");
+        }
+        sb.append(centBetrag);
+        return sb;
     }
 
     /**
-     * Prueft ob der Betrag 0 Euro und 0 Cent betraegt.
+     * Prueft ob der Betrag genau 0 Euro und 0 Cent betraegt.
      * 
      * @return true: 0 Euro und 0 Cent
      */
     boolean istBetragNull()
     {
         return getEuroBetrag() == 0 && getCentBetrag() == 0;
+    }
+
+    /**
+     * Prueft ob der Betrag negative Werte annimmt.
+     * 
+     * @return true: Betrag ist negativ, false: Betrag ist positiv
+     */
+    boolean istBetragNegativ()
+    {
+        return getEuroBetrag() < 0 || getEuroBetrag() == 0 && getCentBetrag() < 0;
     }
 
     /**
@@ -298,9 +326,27 @@ class Geldbetrag
         int euroBetrag = _euroBetrag - betrag.getEuroBetrag();
         int centBetrag = _centBetrag - betrag.getCentBetrag();
         Geldbetrag differenz = new Geldbetrag(euroBetrag, centBetrag);
+        haendleEuroUeberschussFuerDifferenz(differenz);
         haendleCentUeberschussFuerDifferenz(differenz);
         return differenz;
 
+    }
+
+    /**
+     * Gleicht negative Eurobetraege an indem er diese in Cent umwandelt.
+     * Nur fuer Differenz Berechnung gedacht.
+     */
+    private Geldbetrag haendleEuroUeberschussFuerDifferenz(Geldbetrag betrag)
+    {
+        //TODO bullshit solution as well?
+        int centAnpassung = 0;
+        while (betrag.getEuroBetrag() < 0)
+        {
+            centAnpassung = centAnpassung - 100;
+            betrag.setEuroBetrag(betrag.getEuroBetrag() + 1);
+        }
+        betrag.setCentBetrag(betrag.getCentBetrag() + centAnpassung);
+        return betrag;
     }
 
     public void setEuroBetrag(int _euroBetrag)
@@ -323,6 +369,10 @@ class Geldbetrag
         int euroAnpassung = 0;
         while (betrag.getCentBetrag() < 0)
         {
+            if (betrag.getEuroBetrag() == 0)
+            {
+                break;
+            }
             euroAnpassung--;
             betrag.setCentBetrag(betrag.getCentBetrag() + 100);
         }

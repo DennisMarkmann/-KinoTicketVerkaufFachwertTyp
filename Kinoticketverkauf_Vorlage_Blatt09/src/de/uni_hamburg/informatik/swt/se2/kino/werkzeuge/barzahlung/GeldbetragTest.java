@@ -101,7 +101,7 @@ public class GeldbetragTest
     public void testeGibGeldbetragDarstellung()
     {
         Geldbetrag geldbetrag = new Geldbetrag(_wertEins);
-        String stringDarstellung = geldbetrag.gibGeldbetragDarstellung();
+        String stringDarstellung = geldbetrag.gibGeldbetragDarstellung(false);
         assertEquals(_wertEinsEuro + "," + _wertEinsCent, stringDarstellung);
     }
 }
