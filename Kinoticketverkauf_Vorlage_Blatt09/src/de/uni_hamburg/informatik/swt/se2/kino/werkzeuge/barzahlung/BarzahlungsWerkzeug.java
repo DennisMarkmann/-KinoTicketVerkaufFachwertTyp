@@ -147,7 +147,7 @@ public class BarzahlungsWerkzeug extends ObservableSubwerkzeug
      * Registriert einen Listener, der auf Änderungen im Gegeben-Textfeld
      * reagiert.
      */
-    private void registriereGeyahltTextfieldEingabeAktion()
+    private void registriereGezahltTextfieldEingabeAktion()
     {
         _ui.getGezahltTextfield()
             .addKeyListener(new KeyAdapter()
@@ -191,7 +191,7 @@ public class BarzahlungsWerkzeug extends ObservableSubwerkzeug
     {
         registriereAbbrechenAktionen();
         registriereOKAktion();
-        registriereGeyahltTextfieldEingabeAktion();
+        registriereGezahltTextfieldEingabeAktion();
     }
 
     /**
