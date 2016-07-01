@@ -80,6 +80,7 @@ public class BarzahlungsWerkzeug extends ObservableSubwerkzeug
      */
     public void fuehreBarzahlungDurch(int preis)
     {
+        //TODO Fachwert wird verwendet
         _betrag = new Geldbetrag(0, preis);
         _ausreichenderGeldbetrag = false;
         _barzahlungErfolgreich = false;
@@ -112,6 +113,7 @@ public class BarzahlungsWerkzeug extends ObservableSubwerkzeug
         }
         try
         {
+            //TODO Fachwert wird verwendet
             Geldbetrag eingabeBetrag = new Geldbetrag(eingabePreis);
             Geldbetrag differenz = (_betrag.berechneDifferenz(eingabeBetrag));
             _ausreichenderGeldbetrag = differenz.istBetragNull() || differenz.istBetragNegativ();
@@ -201,6 +203,7 @@ public class BarzahlungsWerkzeug extends ObservableSubwerkzeug
     {
         zeigePreis();
         loescheGezahltenBetrag();
+        //TODO Fachwert wird verwendet
         zeigeRestbetrag(_betrag);
         zeigeAusreichenderGeldbetragStatus();
     }
@@ -235,6 +238,7 @@ public class BarzahlungsWerkzeug extends ObservableSubwerkzeug
      */
     private void zeigePreis()
     {
+        //TODO Fachwert wird verwendet
         _ui.getPreisTextfield()
             .setText(_betrag.gibGeldbetragDarstellung(false) + " Euro");
     }
@@ -246,6 +250,7 @@ public class BarzahlungsWerkzeug extends ObservableSubwerkzeug
      */
     private void zeigeRestbetrag(Geldbetrag differenz)
     {
+        //TODO Fachwert wird verwendet
         _ui.getRestbetragTextfield()
             .setText(differenz.gibGeldbetragDarstellung(true) + " Euro");
     }

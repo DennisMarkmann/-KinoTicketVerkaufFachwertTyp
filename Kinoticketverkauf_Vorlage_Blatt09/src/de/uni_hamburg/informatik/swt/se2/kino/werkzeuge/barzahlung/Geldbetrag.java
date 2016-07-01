@@ -22,6 +22,25 @@ class Geldbetrag
     /**
      * Konstruktor zur erzeugung eines neuen Geldbetrages.
      *
+     * @param euroBetrag des Betrages.
+     * @param centBetrag des Betrages.
+     *
+     * @require euroBetrag != null
+     * @require centBetrag != null
+     */
+    Geldbetrag(Integer euroBetrag, Integer centBetrag)
+    {
+        assert euroBetrag != null : "Vorbedingung verletzt: euroBetrag != null";
+        assert centBetrag != null : "Vorbedingung verletzt: centBetrag != null";
+
+        _euroBetrag = euroBetrag;
+        _centBetrag = centBetrag;
+        haendleCentUeberschuss(this);
+    }
+
+    /**
+     * Konstruktor zur erzeugung eines neuen Geldbetrages.
+     *
      * @param wert der Wert der den Euro- und Centanteil des Betrages festlegt. Muss im Format: "EE,CC" vorliegen.
      *
      * @require wert != null

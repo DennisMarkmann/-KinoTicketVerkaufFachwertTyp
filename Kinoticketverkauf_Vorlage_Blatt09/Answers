@@ -1,15 +1,23 @@
 • Was ist ein Fachwert und wie ist dieser gemäß der SE2-Entwurfsregeln aufgebaut?
 
 
+
 • Welche Vorteile bietet die Verwendung eines Fachwerttyps gegenüber einem Integertyp?
 
 
-• Lässt euer Fachwert negative Beträge zu? Erläutert an konkreten Bespielen welche Konsequen-zen eure Entscheidung hat.
+
+• Lässt euer Fachwert negative Beträge zu? Erläutert an konkreten Bespielen welche Konsequenzen eure Entscheidung hat.
+ 
+	Ja, tut er. Dies macht in unserem Fall Sinn, da wir bei der Differenzberechnung auch gerne wissen wollten, ob der erste Betrag 
+	größer oder kleiner war als der zweite. Als Konsequenz mussten wir in der Anzeige den formatierten String anpassen 
+	(Das Minus entfernen).
 
 
 • Welche Schnittstelle hat der von euch vorgeschlagene Fachwerttyp? Denkt hierbei auch an das Vertragsmodell.
 
 
+
 • An welchen Stellen im System wird euer Fachwerttyp zukünftig verwendet werden? 
   Markiert diese Stellen durch ToDos und zeichnet ein UML-Klassendiagramm.
-
+  
+	ToDos sind vorhanden.
