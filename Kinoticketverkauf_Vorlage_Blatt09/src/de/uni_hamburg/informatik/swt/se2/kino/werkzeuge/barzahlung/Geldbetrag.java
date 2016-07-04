@@ -6,7 +6,7 @@ class Geldbetrag
     private int _centBetrag = 0;
 
     /**
-     * Konstruktor zur erzeugung eines neuen Geldbetrages.
+     * Konstruktor zur Erzeugung eines neuen Geldbetrages.
      *
      * @param euroBetrag des Betrages.
      * @param centBetrag des Betrages.
@@ -16,7 +16,7 @@ class Geldbetrag
     {
         _euroBetrag = euroBetrag;
         _centBetrag = centBetrag;
-        haendleEuroCentUeberschuss(this);
+        haendleWaehrungsUngleichheiten(this);
     }
 
     /**
@@ -28,14 +28,14 @@ class Geldbetrag
      * @require euroBetrag != null
      * @require centBetrag != null
      */
-    Geldbetrag(Integer euroBetrag, Integer centBetrag)
+    Geldbetrag(Integer euroBetrag, Integer centBetrag) // NO_UCD (unused code)
     {
         assert euroBetrag != null : "Vorbedingung verletzt: euroBetrag != null";
         assert centBetrag != null : "Vorbedingung verletzt: centBetrag != null";
 
         _euroBetrag = euroBetrag;
         _centBetrag = centBetrag;
-        haendleEuroCentUeberschuss(this);
+        haendleWaehrungsUngleichheiten(this);
     }
 
     /**
@@ -71,13 +71,13 @@ class Geldbetrag
      *
      * @require additionsBetrag != null
      */
-    Geldbetrag addiere(Geldbetrag additionsBetrag)
+    Geldbetrag addiere(Geldbetrag additionsBetrag) // NO_UCD (test only)
     {
         assert additionsBetrag != null : "Vorbedingung verletzt: additionsBetrag != null";
 
         _euroBetrag += additionsBetrag.getEuroBetrag();
         _centBetrag += additionsBetrag.getCentBetrag();
-        haendleEuroCentUeberschuss(this);
+        haendleWaehrungsUngleichheiten(this);
         return this;
     }
 
@@ -130,7 +130,7 @@ class Geldbetrag
     }
 
     /**
-     * Prueft ob der Wert ungueltige Zeichen enthaelt (Irgendetwas ausser zahlen und Kommas).
+     * Prueft ob der Wert ungueltige Zeichen enthaelt (Irgendetwas ausser Zahlen und Kommas).
      *
      * @param wert Eingabewert der geprueft werden soll.
      *
@@ -247,8 +247,12 @@ class Geldbetrag
 
     /**
      * Gleicht negative oder mehr als zweistellige Centbetraege an indem er diese in Euro umwandelt.
+     *
+     * @param betrag der angepasst werden soll.
+     *
+     * @return angepasster Betrag.
      */
-    private Geldbetrag haendleEuroCentUeberschuss(Geldbetrag betrag)
+    private Geldbetrag haendleCentUeberschuss(Geldbetrag betrag)
     {
         int euroAnpassung = 0;
         //Fall: Eurobetrag positiv, Centbetrag negativ: Verringerung des Eurobetrages bis Centbetrag positiv.
@@ -270,12 +274,15 @@ class Geldbetrag
         }
         betrag.setEuroBetrag(betrag.getEuroBetrag() + euroAnpassung);
 
-        haendleEuroUeberschuss(betrag);
         return betrag;
     }
 
     /**
      * Gleicht negative oder mehr als zweistellige Centbetraege an indem er diese in Euro umwandelt.
+     *
+     * @param betrag der angepasst werden soll.
+     *
+     * @return angepasster Betrag.
      */
     private Geldbetrag haendleEuroUeberschuss(Geldbetrag betrag)
     {
@@ -285,6 +292,20 @@ class Geldbetrag
             betrag.setCentBetrag(betrag.getCentBetrag() - 100);
             betrag.setEuroBetrag(betrag.getEuroBetrag() + 1);
         }
+        return betrag;
+    }
+
+    /**
+     * Fuehrt Operationen durch um Waehrungen moeglichst sinnvoll verteilt in einander umzuwandeln.
+     *
+     * @param betrag der angepasst werden soll.
+     *
+     * @return angepasster Betrag.
+     */
+    private Geldbetrag haendleWaehrungsUngleichheiten(Geldbetrag betrag)
+    {
+        betrag = haendleCentUeberschuss(betrag);
+        betrag = haendleEuroUeberschuss(betrag);
         return betrag;
     }
 
@@ -336,13 +357,13 @@ class Geldbetrag
      *
      * @require faktor > 0
      */
-    Geldbetrag multipliziere(int faktor)
+    Geldbetrag multipliziere(int faktor) // NO_UCD (test only)
     {
         assert faktor > 0 : "Vorbedingung verletzt: faktor > 0";
 
         _euroBetrag *= faktor;
         _centBetrag *= faktor;
-        haendleEuroCentUeberschuss(this);
+        haendleWaehrungsUngleichheiten(this);
         return this;
     }
 
@@ -375,13 +396,13 @@ class Geldbetrag
      *
      * @require subtraktionsBetrag != null
      */
-    Geldbetrag subtrahiere(Geldbetrag subtraktionsBetrag)
+    Geldbetrag subtrahiere(Geldbetrag subtraktionsBetrag) // NO_UCD (Aufgabenstellung)
     {
         assert subtraktionsBetrag != null : "Vorbedingung verletzt: subtraktionsBetrag != null";
 
         _euroBetrag -= subtraktionsBetrag.getEuroBetrag();
         _centBetrag -= subtraktionsBetrag.getCentBetrag();
-        haendleEuroCentUeberschuss(this);
+        haendleWaehrungsUngleichheiten(this);
         return this;
     }
 }
