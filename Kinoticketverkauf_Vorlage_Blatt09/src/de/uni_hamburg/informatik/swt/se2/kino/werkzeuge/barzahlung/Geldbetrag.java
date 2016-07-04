@@ -208,7 +208,7 @@ class Geldbetrag
      *
      * @return den aktuellen Centanteil des Betrages als int.
      */
-    public int getCentBetrag()
+    int getCentBetrag()
     {
         return _centBetrag;
     }
@@ -218,7 +218,7 @@ class Geldbetrag
      *
      * @return den aktuellen Euroanteil des Betrages als int.
      */
-    public int getEuroBetrag()
+    int getEuroBetrag()
     {
         return _euroBetrag;
     }
@@ -372,7 +372,7 @@ class Geldbetrag
      *
      * @param _centBetrag der gesetzt werden soll.
      */
-    public void setCentBetrag(int _centBetrag)
+    void setCentBetrag(int _centBetrag)
     {
         this._centBetrag = _centBetrag;
     }
@@ -382,7 +382,7 @@ class Geldbetrag
      *
      * @param _euroBetrag  der gesetzt werden soll.
      */
-    public void setEuroBetrag(int _euroBetrag)
+    void setEuroBetrag(int _euroBetrag)
     {
         this._euroBetrag = _euroBetrag;
     }
