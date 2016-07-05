@@ -107,5 +107,13 @@ public class GeldbetragTest
         assertEquals(centGesamt, geldbetrag.getCentBetrag());
     }
 
-    //TODO add Tests for equals, hashwert, validate
+    @Test
+    public void testEquals()
+    {
+        Geldbetrag geldbetrag = Geldbetrag.createGeldbetrag(_wertEins);
+        Geldbetrag geldbetrag2 = Geldbetrag.createGeldbetrag(_wertEins);
+        assertTrue(geldbetrag.equals(geldbetrag2));
+    }
+
+    //TODO Extremwerttests
 }

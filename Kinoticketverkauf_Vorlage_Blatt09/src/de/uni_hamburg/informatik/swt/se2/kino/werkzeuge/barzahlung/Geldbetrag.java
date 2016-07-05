@@ -198,6 +198,17 @@ public class Geldbetrag
         return betrag;
     }
 
+    @Override
+    public boolean equals(Object geldBetrag)
+    {
+        if (geldBetrag instanceof Geldbetrag && _centBetrag == ((Geldbetrag) geldBetrag).getCentBetrag())
+        {
+            return true;
+        }
+        return false;
+
+    }
+
     /**
      * Gibt den aktuellen Centanteil des Betrages als int wieder.
      *
@@ -230,6 +241,12 @@ public class Geldbetrag
         sb.append(centBetrag);
         sb.append(" €");
         return sb.toString();
+    }
+
+    @Override
+    public int hashCode()
+    {
+        return _centBetrag;
     }
 
     /**
@@ -277,4 +294,6 @@ public class Geldbetrag
         Geldbetrag differenz = new Geldbetrag(0, centBetrag);
         return differenz;
     }
+
+    //TODO Eingabe von nur Euro als Standard + beliebig lang ermöglichen
 }

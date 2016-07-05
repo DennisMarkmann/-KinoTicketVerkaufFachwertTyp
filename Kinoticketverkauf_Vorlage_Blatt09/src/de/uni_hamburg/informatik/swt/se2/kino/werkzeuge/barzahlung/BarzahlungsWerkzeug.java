@@ -249,7 +249,4 @@ public class BarzahlungsWerkzeug extends ObservableSubwerkzeug
         _ui.getRestbetragTextfield()
             .setText(differenz.gibGeldbetragDarstellung(true));
     }
-
-    //TODO implement hashCode, equals
-    //TODO Eingabe von nur Euro als Standard + beliebig lang ermöglichen
 }
