@@ -1,24 +1,23 @@
 • Was ist ein Fachwert und wie ist dieser gemäß der SE2-Entwurfsregeln aufgebaut?
 
-
+Ein Fachwert ist ein systemeigener Wert, welcher eine eigene Schnittstelle anbietet 
+und somit nur bestimme Operationen auf sich selbst zulässt und somit eine bessere Kapselung bietet.
 
 • Welche Vorteile bietet die Verwendung eines Fachwerttyps gegenüber einem Integertyp?
 
-
+Ein Integer-Typ hat eine vordefinierte Schnittstelle die wir nicht kontrollieren können,
+und somit für einen Geldbetrag ungültige Operationen zulassen (siehe: Geldbetrag multipliziert mit Geldbetrag).
 
 • Lässt euer Fachwert negative Beträge zu? Erläutert an konkreten Bespielen welche Konsequenzen eure Entscheidung hat.
  
-	Ja, tut er. Dies macht in unserem Fall Sinn, da wir bei der Differenzberechnung auch gerne wissen wollten,
-	ob der erste Betrag größer oder kleiner war als der zweite.
-	Als Konsequenz mussten wir in der Anzeige den formatierten String anpassen (Das Minus entfernen).
-	Ausnahmefall bei der Euro zu Cent Konvertierung: zB. 10,20 - 11,10 = -1EE + 10CC --> 0 / -90 -> 0,90
-
+Ja, tut er. Dies macht in unserem Fall Sinn, da wir bei der Differenzberechnung auch gerne wissen wollten,
+ob der erste Betrag größer oder kleiner war als der zweite.
+Als Konsequenz mussten wir in der Anzeige den formatierten String anpassen (Das Minus entfernen).
 
 • Welche Schnittstelle hat der von euch vorgeschlagene Fachwerttyp? Denkt hierbei auch an das Vertragsmodell.
 
+Barzahlung, Vorstellung
 
 
 • An welchen Stellen im System wird euer Fachwerttyp zukünftig verwendet werden? 
   Markiert diese Stellen durch ToDos und zeichnet ein UML-Klassendiagramm.
-  
-	ToDos sind vorhanden.

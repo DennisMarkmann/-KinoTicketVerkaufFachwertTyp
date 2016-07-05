@@ -114,7 +114,7 @@ public class BarzahlungsWerkzeug extends ObservableSubwerkzeug
         {
             Geldbetrag eingabeBetrag = Geldbetrag.createGeldbetrag(eingabePreis);
             Geldbetrag differenz = (_betrag.subtrahiere(eingabeBetrag));
-            _ausreichenderGeldbetrag = differenz.istBetragNull() || differenz.istBetragNegativ();
+            _ausreichenderGeldbetrag = differenz.istBetragKleinerGleichNull();
             zeigeRestbetrag(differenz);
         }
         catch (AssertionError ignore)
@@ -236,7 +236,7 @@ public class BarzahlungsWerkzeug extends ObservableSubwerkzeug
     private void zeigePreis()
     {
         _ui.getPreisTextfield()
-            .setText(_betrag.gibGeldbetragDarstellung(false) + " Euro");
+            .setText(_betrag.gibGeldbetragDarstellung(false));
     }
 
     /**
@@ -247,9 +247,9 @@ public class BarzahlungsWerkzeug extends ObservableSubwerkzeug
     private void zeigeRestbetrag(Geldbetrag differenz)
     {
         _ui.getRestbetragTextfield()
-            .setText(differenz.gibGeldbetragDarstellung(true) + " Euro");
+            .setText(differenz.gibGeldbetragDarstellung(true));
     }
 
-    //TODO implement hashCode, equals, more testCases
-    //TODO copy answers
+    //TODO implement hashCode, equals
+    //TODO Eingabe von nur Euro als Standard + beliebig lang ermöglichen
 }

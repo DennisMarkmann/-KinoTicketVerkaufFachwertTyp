@@ -71,14 +71,14 @@ public class PlatzVerkaufsWerkzeug
         {
             Geldbetrag preis = _vorstellung.getPreisFuerPlaetze(plaetze);
             _ui.getPreisLabel()
-                .setText("Gesamtpreis: " + preis.gibGeldbetragDarstellung(false) + " Euro");
+                .setText("Gesamtpreis: " + preis.gibGeldbetragDarstellung(false));
             _ausgewaehlterGesamtbetrag = preis;
         }
         else if (istStornierenMoeglich(plaetze))
         {
             Geldbetrag preis = _vorstellung.getPreisFuerPlaetze(plaetze);
             _ui.getPreisLabel()
-                .setText("Gesamtstorno: " + preis.gibGeldbetragDarstellung(false) + " Euro");
+                .setText("Gesamtstorno: " + preis.gibGeldbetragDarstellung(false));
         }
         else if (!plaetze.isEmpty())
         {
