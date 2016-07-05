@@ -76,12 +76,11 @@ public class BarzahlungsWerkzeug extends ObservableSubwerkzeug
      * Startet den Barzahlungsvorgang. Die UI wird angezeigt. Der Programmfluss
      * kehrt erst nach dem Beenden des Bezahlvorgangs an den Aufrufer zurück.
      *
-     * @param preis der einzunehmende Gelbetrag
+     * @param _ausgewaehlterGesamtbetrag der einzunehmende Gelbetrag
      */
-    public void fuehreBarzahlungDurch(int preis)
+    public void fuehreBarzahlungDurch(Geldbetrag _ausgewaehlterGesamtbetrag)
     {
-        //TODO Fachwert wird verwendet
-        _betrag = new Geldbetrag(0, preis);
+        _betrag = _ausgewaehlterGesamtbetrag;
         _ausreichenderGeldbetrag = false;
         _barzahlungErfolgreich = false;
         setzeUIAnfangsstatus();
@@ -113,9 +112,8 @@ public class BarzahlungsWerkzeug extends ObservableSubwerkzeug
         }
         try
         {
-            //TODO Fachwert wird verwendet
-            Geldbetrag eingabeBetrag = new Geldbetrag(eingabePreis);
-            Geldbetrag differenz = (_betrag.berechneDifferenz(eingabeBetrag));
+            Geldbetrag eingabeBetrag = Geldbetrag.createGeldbetrag(eingabePreis);
+            Geldbetrag differenz = (_betrag.subtrahiere(eingabeBetrag));
             _ausreichenderGeldbetrag = differenz.istBetragNull() || differenz.istBetragNegativ();
             zeigeRestbetrag(differenz);
         }
@@ -203,7 +201,6 @@ public class BarzahlungsWerkzeug extends ObservableSubwerkzeug
     {
         zeigePreis();
         loescheGezahltenBetrag();
-        //TODO Fachwert wird verwendet
         zeigeRestbetrag(_betrag);
         zeigeAusreichenderGeldbetragStatus();
     }
@@ -238,7 +235,6 @@ public class BarzahlungsWerkzeug extends ObservableSubwerkzeug
      */
     private void zeigePreis()
     {
-        //TODO Fachwert wird verwendet
         _ui.getPreisTextfield()
             .setText(_betrag.gibGeldbetragDarstellung(false) + " Euro");
     }
@@ -250,8 +246,10 @@ public class BarzahlungsWerkzeug extends ObservableSubwerkzeug
      */
     private void zeigeRestbetrag(Geldbetrag differenz)
     {
-        //TODO Fachwert wird verwendet
         _ui.getRestbetragTextfield()
             .setText(differenz.gibGeldbetragDarstellung(true) + " Euro");
     }
+
+    //TODO implement hashCode, equals, more testCases
+    //TODO copy answers
 }

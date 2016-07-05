@@ -1,105 +1,7 @@
 package de.uni_hamburg.informatik.swt.se2.kino.werkzeuge.barzahlung;
 
-class Geldbetrag
+public class Geldbetrag
 {
-    private int _euroBetrag = 0;
-    private int _centBetrag = 0;
-
-    /**
-     * Konstruktor zur Erzeugung eines neuen Geldbetrages.
-     *
-     * @param euroBetrag des Betrages.
-     * @param centBetrag des Betrages.
-     *
-     */
-    private Geldbetrag(int euroBetrag, int centBetrag)
-    {
-        _euroBetrag = euroBetrag;
-        _centBetrag = centBetrag;
-        haendleWaehrungsUngleichheiten(this);
-    }
-
-    /**
-     * Konstruktor zur erzeugung eines neuen Geldbetrages.
-     *
-     * @param euroBetrag des Betrages.
-     * @param centBetrag des Betrages.
-     *
-     * @require euroBetrag != null
-     * @require centBetrag != null
-     */
-    private Geldbetrag(Integer euroBetrag, Integer centBetrag) // NO_UCD (unused code)
-    {
-        assert euroBetrag != null : "Vorbedingung verletzt: euroBetrag != null";
-        assert centBetrag != null : "Vorbedingung verletzt: centBetrag != null";
-
-        _euroBetrag = euroBetrag;
-        _centBetrag = centBetrag;
-        haendleWaehrungsUngleichheiten(this);
-    }
-
-    /**
-     * Konstruktor zur erzeugung eines neuen Geldbetrages.
-     *
-     * @param wert der Wert der den Euro- und Centanteil des Betrages festlegt. Muss im Format: "EE,CC" vorliegen.
-     *
-     * @require wert != null
-     * @require isValueValid(wert)
-     */
-    private Geldbetrag(String wert)
-    {
-        assert wert != null : "Vorbedingung verletzt: wert != null";
-        assert isValueValid(wert) : "Vorbedingung verletzt: isValueValidisValueValid(wert)";
-
-        if (wert.contains(","))
-        {
-            _euroBetrag = Integer.parseInt(wert.substring(0, wert.indexOf(",")));
-            _centBetrag = Integer.parseInt(wert.substring(wert.indexOf(",") + 1));
-        }
-        else
-        {
-            _centBetrag = Integer.parseInt(wert);
-        }
-    }
-
-    /**
-     * Addiert den uebergebenen Geldbetrag auf diesen Geldbetrag.
-     *
-     * @param additionsBetrag um den der Geldbetrag erhoeht werden soll.
-     *
-     * @return neuer Geldbetrag.
-     *
-     * @require additionsBetrag != null
-     */
-    Geldbetrag addiere(Geldbetrag additionsBetrag) // NO_UCD (test only)
-    {
-        assert additionsBetrag != null : "Vorbedingung verletzt: additionsBetrag != null";
-
-        _euroBetrag += additionsBetrag.getEuroBetrag();
-        _centBetrag += additionsBetrag.getCentBetrag();
-        haendleWaehrungsUngleichheiten(this);
-        return this;
-    }
-
-    /**
-     * Berechnet die Differenz zweier Betraege.
-     *
-     * @param betrag mit dem die Differenz berechnet werden soll.
-     *
-     * @return Differenz Betrag.
-     *
-     * @require betrag != null
-     */
-    Geldbetrag berechneDifferenz(Geldbetrag betrag)
-    {
-        assert betrag != null : "Vorbedingung verletzt: betrag != null";
-
-        int euroBetrag = _euroBetrag - betrag.getEuroBetrag();
-        int centBetrag = _centBetrag - betrag.getCentBetrag();
-        Geldbetrag differenz = new Geldbetrag(euroBetrag, centBetrag);
-        return differenz;
-    }
-
     /**
      * Prueft ob der Wert Centbetraege enthaelt die nicht dem Schema "CC" entsprechen / nicht zweistellig sind.
      *
@@ -109,7 +11,7 @@ class Geldbetrag
      *
      * @require wert != null
      */
-    private boolean containsInvalidCentValues(String wert)
+    private static boolean containsInvalidCentValues(String wert)
     {
         assert wert != null : "Vorbedingung verletzt: wert != null";
 
@@ -138,7 +40,7 @@ class Geldbetrag
      *
      * @require wert != null
      */
-    private boolean containsInvalidSymbols(String wert)
+    private static boolean containsInvalidSymbols(String wert)
     {
         assert wert != null : "Vorbedingung verletzt: wert != null";
 
@@ -161,7 +63,7 @@ class Geldbetrag
      *
      * @require wert != null
      */
-    private boolean containsMultipleCommas(String wert)
+    private static boolean containsMultipleCommas(String wert)
     {
         assert wert != null : "Vorbedingung verletzt: wert != null";
 
@@ -178,6 +80,143 @@ class Geldbetrag
             }
         }
         return false;
+    }
+
+    /**
+     * Konstruktor zur Erzeugung eines neuen Geldbetrages.
+     *
+     * @param euroBetrag des Betrages.
+     * @param centBetrag des Betrages.
+     *
+     */
+    public static Geldbetrag createGeldbetrag(int euroBetrag, int centBetrag)
+    {
+        return new Geldbetrag(euroBetrag, centBetrag);
+    }
+
+    /**
+     * Konstruktor zur erzeugung eines neuen Geldbetrages.
+     *
+     * @param euroBetrag des Betrages.
+     * @param centBetrag des Betrages.
+     *
+     * @require euroBetrag != null
+     * @require centBetrag != null
+     */
+    public static Geldbetrag createGeldbetrag(Integer euroBetrag, Integer centBetrag)
+    {
+        assert euroBetrag != null : "Vorbedingung verletzt: euroBetrag != null";
+        assert centBetrag != null : "Vorbedingung verletzt: centBetrag != null";
+        return new Geldbetrag(euroBetrag, centBetrag);
+    }
+
+    /**
+     * Konstruktor zur erzeugung eines neuen Geldbetrages.
+     *
+     * @param wert der Wert der den Euro- und Centanteil des Betrages festlegt. Muss im Format: "EE,CC" vorliegen.
+     *
+     * @require wert != null
+     * @require isValueValid(wert)
+     */
+    public static Geldbetrag createGeldbetrag(String wert)
+    {
+        assert wert != null : "Vorbedingung verletzt: wert != null";
+        assert isValueValid(wert) : "Vorbedingung verletzt: isValueValidisValueValid(wert)";
+
+        return new Geldbetrag(wert);
+    }
+
+    /**
+     * Prueft ob diverse gueltigkeits Checks Fehler melden und den Wert als ungueltig einstufen. Gueltiges Format: "EE,CC"
+     *
+     * @param wert Eingabewert der geprueft werden soll.
+     *
+     * @return true: Wert ist ungueltig, false: Bedingung erfüllt
+     *
+     * @require wert != null
+     */
+    private static boolean isValueValid(String wert)
+    {
+        assert wert != null : "Vorbedingung verletzt: wert != null";
+
+        if (containsInvalidSymbols(wert) || containsMultipleCommas(wert) || containsInvalidCentValues(wert))
+        {
+            return false;
+        }
+        return true;
+    }
+
+    private final int _euroBetrag;
+
+    private final int _centBetrag;
+
+    /**
+     * Konstruktor zur Erzeugung eines neuen Geldbetrages.
+     *
+     * @param euroBetrag des Betrages.
+     * @param centBetrag des Betrages.
+     *
+     */
+    private Geldbetrag(int euroBetrag, int centBetrag)
+    {
+        _euroBetrag = euroBetrag;
+        _centBetrag = centBetrag;
+        haendleWaehrungsUngleichheiten(this);
+    }
+
+    /**
+     * Konstruktor zur erzeugung eines neuen Geldbetrages.
+     *
+     * @param euroBetrag des Betrages.
+     * @param centBetrag des Betrages.
+     *
+     */
+    private Geldbetrag(Integer euroBetrag, Integer centBetrag) // NO_UCD (unused code)
+    {
+        _euroBetrag = euroBetrag;
+        _centBetrag = centBetrag;
+        haendleWaehrungsUngleichheiten(this);
+    }
+
+    /**
+     * Konstruktor zur erzeugung eines neuen Geldbetrages.
+     *
+     * @param wert der Wert der den Euro- und Centanteil des Betrages festlegt. Muss im Format: "EE,CC" vorliegen.
+     */
+    private Geldbetrag(String wert)
+    {
+
+        if (wert.contains(","))
+        {
+            _euroBetrag = Integer.parseInt(wert.substring(0, wert.indexOf(",")));
+            _centBetrag = Integer.parseInt(wert.substring(wert.indexOf(",") + 1));
+        }
+        else
+        {
+            _euroBetrag = 0;
+            _centBetrag = Integer.parseInt(wert);
+        }
+    }
+
+    /**
+     * Addiert den uebergebenen Geldbetrag auf diesen Geldbetrag.
+     *
+     * @param additionsBetrag um den der Geldbetrag erhoeht werden soll.
+     *
+     * @return neuer Geldbetrag.
+     *
+     * @require additionsBetrag != null
+     */
+    Geldbetrag addiere(Geldbetrag additionsBetrag) // NO_UCD (test only)
+    {
+        //TODO require maxWert zB 10000
+        assert additionsBetrag != null : "Vorbedingung verletzt: additionsBetrag != null";
+
+        int euroBetrag = _euroBetrag - additionsBetrag.getEuroBetrag();
+        int centBetrag = _centBetrag - additionsBetrag.getCentBetrag();
+        Geldbetrag betrag = new Geldbetrag(euroBetrag, centBetrag);
+        haendleWaehrungsUngleichheiten(betrag);
+        return betrag;
     }
 
     /**
@@ -208,7 +247,7 @@ class Geldbetrag
      *
      * @return den aktuellen Centanteil des Betrages als int.
      */
-    int getCentBetrag()
+    public int getCentBetrag()
     {
         return _centBetrag;
     }
@@ -218,7 +257,7 @@ class Geldbetrag
      *
      * @return den aktuellen Euroanteil des Betrages als int.
      */
-    int getEuroBetrag()
+    public int getEuroBetrag()
     {
         return _euroBetrag;
     }
@@ -228,7 +267,7 @@ class Geldbetrag
      *
      * @return Geldbetrag als String im Format "Eurobetrag,Centbetrag".
      */
-    String gibGeldbetragDarstellung(boolean alwaysPositive)
+    public String gibGeldbetragDarstellung(boolean alwaysPositive)
     {
         StringBuffer sb = new StringBuffer();
         if (alwaysPositive && _euroBetrag < 0)
@@ -330,26 +369,6 @@ class Geldbetrag
     }
 
     /**
-     * Prueft ob diverse gueltigkeits Checks Fehler melden und den Wert als ungueltig einstufen. Gueltiges Format: "EE,CC"
-     *
-     * @param wert Eingabewert der geprueft werden soll.
-     *
-     * @return true: Wert ist ungueltig, false: Bedingung erfüllt
-     *
-     * @require wert != null
-     */
-    private boolean isValueValid(String wert)
-    {
-        assert wert != null : "Vorbedingung verletzt: wert != null";
-
-        if (containsInvalidSymbols(wert) || containsMultipleCommas(wert) || containsInvalidCentValues(wert))
-        {
-            return false;
-        }
-        return true;
-    }
-
-    /**
      * Multipliziert den Geldbetrag mit dem gegebenen Faktor.
      *
      * @param faktor mit dem der Geldbetrag multipliziert werden soll.
@@ -357,14 +376,19 @@ class Geldbetrag
      *
      * @require faktor > 0
      */
-    Geldbetrag multipliziere(int faktor) // NO_UCD (test only)
+    public Geldbetrag multipliziere(int faktor) // NO_UCD (test only)
     {
+        //TODO require maxWert zB 10000
         assert faktor > 0 : "Vorbedingung verletzt: faktor > 0";
 
-        _euroBetrag *= faktor;
-        _centBetrag *= faktor;
-        haendleWaehrungsUngleichheiten(this);
-        return this;
+        int euroBetrag = _euroBetrag;
+        int centBetrag = _centBetrag;
+
+        euroBetrag *= faktor;
+        centBetrag *= faktor;
+        Geldbetrag geldbetrag = new Geldbetrag(euroBetrag, centBetrag);
+        haendleWaehrungsUngleichheiten(geldbetrag);
+        return geldbetrag;
     }
 
     /**
@@ -374,7 +398,8 @@ class Geldbetrag
      */
     void setCentBetrag(int _centBetrag)
     {
-        this._centBetrag = _centBetrag;
+        //TODO
+        //        this._centBetrag = _centBetrag;
     }
 
     /**
@@ -384,25 +409,28 @@ class Geldbetrag
      */
     void setEuroBetrag(int _euroBetrag)
     {
-        this._euroBetrag = _euroBetrag;
+        //TODO
+        //        this._euroBetrag = _euroBetrag;
     }
 
     /**
-     * Subtrahiert den uebergebenen Geldbetrag von diesem Geldbetrag.
+     * Berechnet die Differenz zweier Betraege.
      *
-     * @param subtraktionsBetrag um den der Geldbetrag verringert werden soll.
+     * @param betrag mit dem die Differenz berechnet werden soll.
      *
-     * @return neuer Geldbetrag.
+     * @return Differenz Betrag.
      *
-     * @require subtraktionsBetrag != null
+     * @require betrag != null
      */
-    Geldbetrag subtrahiere(Geldbetrag subtraktionsBetrag) // NO_UCD (Aufgabenstellung)
+    Geldbetrag subtrahiere(Geldbetrag betrag)
     {
-        assert subtraktionsBetrag != null : "Vorbedingung verletzt: subtraktionsBetrag != null";
+        //TODO require maxWert zB 10000
+        assert betrag != null : "Vorbedingung verletzt: betrag != null";
 
-        _euroBetrag -= subtraktionsBetrag.getEuroBetrag();
-        _centBetrag -= subtraktionsBetrag.getCentBetrag();
-        haendleWaehrungsUngleichheiten(this);
-        return this;
+        int euroBetrag = _euroBetrag - betrag.getEuroBetrag();
+        int centBetrag = _centBetrag - betrag.getCentBetrag();
+        Geldbetrag differenz = new Geldbetrag(euroBetrag, centBetrag);
+        haendleWaehrungsUngleichheiten(differenz);
+        return differenz;
     }
 }

@@ -33,8 +33,8 @@ public class GeldbetragTest
     @Test
     public void testeAddiereGeldbetraege()
     {
-        Geldbetrag grundBetrag = new Geldbetrag(_wertEins);
-        Geldbetrag zuAddierenderBetrag = new Geldbetrag(_wertZwei);
+        Geldbetrag grundBetrag = Geldbetrag.createGeldbetrag(_wertEins);
+        Geldbetrag zuAddierenderBetrag = Geldbetrag.createGeldbetrag(_wertZwei);
         grundBetrag = grundBetrag.addiere(zuAddierenderBetrag);
 
         int centGesamt = _wertEinsCent + _wertZweiCent;
@@ -50,9 +50,9 @@ public class GeldbetragTest
     @Test
     public void testeBerechneDifferenz()
     {
-        Geldbetrag grundBetrag = new Geldbetrag(_wertZwei);
-        Geldbetrag zuSubtrahierenderBetrag = new Geldbetrag(_wertEins);
-        grundBetrag = grundBetrag.berechneDifferenz(zuSubtrahierenderBetrag);
+        Geldbetrag grundBetrag = Geldbetrag.createGeldbetrag(_wertZwei);
+        Geldbetrag zuSubtrahierenderBetrag = Geldbetrag.createGeldbetrag(_wertEins);
+        grundBetrag = grundBetrag.subtrahiere(zuSubtrahierenderBetrag);
 
         int centGesamt = _wertZweiCent - _wertEinsCent;
         int euroGesamt = _wertZweiEuro - _wertEinsEuro;
@@ -72,8 +72,9 @@ public class GeldbetragTest
     @Test
     public void testeGeldbetragKonstruktoren()
     {
-        Geldbetrag betragEins = new Geldbetrag(_wertEins);
-        Geldbetrag betragZwei = new Geldbetrag(_wertZweiEuro, _wertZweiCent);
+        Geldbetrag betragEins = Geldbetrag.createGeldbetrag(_wertEins);
+
+        Geldbetrag betragZwei = Geldbetrag.createGeldbetrag(_wertZweiEuro, _wertZweiCent);
 
         assertEquals(_wertEinsEuro, betragEins.getEuroBetrag());
         assertEquals(_wertEinsCent, betragEins.getCentBetrag());
@@ -84,7 +85,7 @@ public class GeldbetragTest
     @Test
     public void testeGibGeldbetragDarstellung()
     {
-        Geldbetrag geldbetrag = new Geldbetrag(_wertEins);
+        Geldbetrag geldbetrag = Geldbetrag.createGeldbetrag(_wertEins);
         String stringDarstellung = geldbetrag.gibGeldbetragDarstellung(false);
         assertEquals(_wertEinsEuro + "," + _wertEinsCent, stringDarstellung);
     }
@@ -92,8 +93,8 @@ public class GeldbetragTest
     @Test
     public void testeIstBetragNegativ()
     {
-        Geldbetrag grundBetrag = new Geldbetrag(_wertEins);
-        Geldbetrag zuSubtrahierenderBetrag = new Geldbetrag(_wertZwei);
+        Geldbetrag grundBetrag = Geldbetrag.createGeldbetrag(_wertEins);
+        Geldbetrag zuSubtrahierenderBetrag = Geldbetrag.createGeldbetrag(_wertZwei);
         grundBetrag = grundBetrag.subtrahiere(zuSubtrahierenderBetrag);
         assertTrue(grundBetrag.istBetragNegativ());
     }
@@ -101,8 +102,8 @@ public class GeldbetragTest
     @Test
     public void testeIstBetragNull()
     {
-        Geldbetrag grundBetrag = new Geldbetrag(_wertEins);
-        Geldbetrag zuSubtrahierenderBetrag = new Geldbetrag(_wertEins);
+        Geldbetrag grundBetrag = Geldbetrag.createGeldbetrag(_wertEins);
+        Geldbetrag zuSubtrahierenderBetrag = Geldbetrag.createGeldbetrag(_wertEins);
         grundBetrag = grundBetrag.subtrahiere(zuSubtrahierenderBetrag);
         assertTrue(grundBetrag.istBetragNull());
     }
@@ -110,7 +111,8 @@ public class GeldbetragTest
     @Test
     public void testeMultipliziere()
     {
-        Geldbetrag geldbetrag = new Geldbetrag(_wertEins);
+        //TODO fix
+        Geldbetrag geldbetrag = Geldbetrag.createGeldbetrag(_wertEins);
         geldbetrag = geldbetrag.multipliziere(_faktor);
 
         int expectedEuroBetrag = _wertEinsEuro * _faktor;
@@ -124,25 +126,5 @@ public class GeldbetragTest
         assertEquals(expectedCentBetrag, geldbetrag.getCentBetrag());
     }
 
-    @Test
-    public void testeSubtrahiereGeldbetraege()
-    {
-        Geldbetrag grundBetrag = new Geldbetrag(_wertZwei);
-        Geldbetrag zuSubtrahierenderBetrag = new Geldbetrag(_wertEins);
-        grundBetrag = grundBetrag.subtrahiere(zuSubtrahierenderBetrag);
-
-        int centGesamt = _wertZweiCent - _wertEinsCent;
-        int euroGesamt = _wertZweiEuro - _wertEinsEuro;
-
-        int zuSubtrahierendeEuro = 0;
-        while (centGesamt < 0)
-        {
-            zuSubtrahierendeEuro++;
-            centGesamt += 100;
-        }
-        euroGesamt -= zuSubtrahierendeEuro;
-
-        assertEquals(euroGesamt, grundBetrag.getEuroBetrag());
-        assertEquals(centGesamt, grundBetrag.getCentBetrag());
-    }
+    //TODO add Tests for equals, hashwert, validate
 }
