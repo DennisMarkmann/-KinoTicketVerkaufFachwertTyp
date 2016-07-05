@@ -3,10 +3,13 @@ package de.uni_hamburg.informatik.swt.se2.kino.materialien;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
+
 import java.util.Arrays;
 import java.util.List;
+
 import org.junit.Before;
 import org.junit.Test;
+
 import de.uni_hamburg.informatik.swt.se2.kino.fachwerte.Datum;
 import de.uni_hamburg.informatik.swt.se2.kino.fachwerte.FSK;
 import de.uni_hamburg.informatik.swt.se2.kino.fachwerte.Platz;
@@ -50,7 +53,7 @@ public class KinoTest
         _saal2 = new Kinosaal("Luxus", 10, 16);
         _saal3 = new Kinosaal("Nix", 10, 20);
 
-        _alleSaele = new Kinosaal[] { _saal0, _saal1, _saal2 };
+        _alleSaele = new Kinosaal[] {_saal0, _saal1, _saal2};
 
         _filmTitel0 = "Die wilden Kerle 3";
         _filmTitel1 = "Underworld Evolution";
@@ -67,49 +70,15 @@ public class KinoTest
 
         _d1 = Datum.get(11, 07, 2008);
 
-        _vorstellungSaal1Film0 = new Vorstellung(_saal1, _film0, _u1, _u2, _d1,
-                900);
-        _vorstellungSaal2Film1 = new Vorstellung(_saal2, _film1, _u1, _u2, _d1,
-                1000);
-        _vorstellungSaal2Film2a = new Vorstellung(_saal2, _film2, _u2, _u3,
-                _d1, 900);
-        _vorstellungSaal2Film2b = new Vorstellung(_saal2, _film2, _u3, _u4,
-                _d1, 900);
+        //TODO
+        _vorstellungSaal1Film0 = new Vorstellung(_saal1, _film0, _u1, _u2, _d1, 900);
+        _vorstellungSaal2Film1 = new Vorstellung(_saal2, _film1, _u1, _u2, _d1, 1000);
+        _vorstellungSaal2Film2a = new Vorstellung(_saal2, _film2, _u2, _u3, _d1, 900);
+        _vorstellungSaal2Film2b = new Vorstellung(_saal2, _film2, _u3, _u4, _d1, 900);
 
-        _alleVorstellungen = new Vorstellung[] { _vorstellungSaal1Film0,
-                _vorstellungSaal2Film1, _vorstellungSaal2Film2a,
-                _vorstellungSaal2Film2b };
+        _alleVorstellungen = new Vorstellung[] {_vorstellungSaal1Film0, _vorstellungSaal2Film1, _vorstellungSaal2Film2a,
+                _vorstellungSaal2Film2b};
         _kino = new Kino(_alleSaele, _alleVorstellungen);
-    }
-
-    @Test
-    public void testGibTagesplan()
-    {
-        Tagesplan tagesplan = _kino.getTagesplan(_d1);
-
-        assertEquals(_d1, tagesplan.getDatum());
-        assertEquals(4, tagesplan.getVorstellungen().size());
-        assertTrue(tagesplan.getVorstellungen().containsAll(
-                Arrays.asList(_vorstellungSaal2Film1, _vorstellungSaal2Film2a,
-                        _vorstellungSaal2Film2b, _vorstellungSaal1Film0)));
-    }
-
-    @Test
-    public void testeHatKinosaal()
-    {
-        assertTrue(_kino.hatKinosaal(_saal0));
-        assertTrue(_kino.hatKinosaal(_saal1));
-        assertFalse(_kino.hatKinosaal(_saal3));
-    }
-
-    @Test
-    public void testGibKinosaele()
-    {
-        List<Kinosaal> l = _kino.getKinosaele();
-        assertEquals(3, l.size());
-        assertTrue(l.contains(_saal0));
-        assertTrue(l.contains(_saal1));
-        assertTrue(l.contains(_saal2));
     }
 
     @Test
@@ -129,6 +98,14 @@ public class KinoTest
     }
 
     @Test
+    public void testeHatKinosaal()
+    {
+        assertTrue(_kino.hatKinosaal(_saal0));
+        assertTrue(_kino.hatKinosaal(_saal1));
+        assertFalse(_kino.hatKinosaal(_saal3));
+    }
+
+    @Test
     public void testeHatPlatz()
     {
         assertTrue(_saal0.hatPlatz(Platz.get(0, 0)));
@@ -136,5 +113,28 @@ public class KinoTest
         assertFalse(_saal0.hatPlatz(Platz.get(0, 40)));
         assertFalse(_saal0.hatPlatz(Platz.get(25, 0)));
         assertFalse(_saal0.hatPlatz(Platz.get(25, 40)));
+    }
+
+    @Test
+    public void testGibKinosaele()
+    {
+        List<Kinosaal> l = _kino.getKinosaele();
+        assertEquals(3, l.size());
+        assertTrue(l.contains(_saal0));
+        assertTrue(l.contains(_saal1));
+        assertTrue(l.contains(_saal2));
+    }
+
+    @Test
+    public void testGibTagesplan()
+    {
+        Tagesplan tagesplan = _kino.getTagesplan(_d1);
+
+        assertEquals(_d1, tagesplan.getDatum());
+        assertEquals(4, tagesplan.getVorstellungen()
+            .size());
+        assertTrue(tagesplan.getVorstellungen()
+            .containsAll(Arrays.asList(_vorstellungSaal2Film1, _vorstellungSaal2Film2a, _vorstellungSaal2Film2b,
+                    _vorstellungSaal1Film0)));
     }
 }

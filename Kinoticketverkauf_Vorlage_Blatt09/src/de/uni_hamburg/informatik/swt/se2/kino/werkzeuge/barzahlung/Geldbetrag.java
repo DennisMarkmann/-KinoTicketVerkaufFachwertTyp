@@ -12,7 +12,7 @@ class Geldbetrag
      * @param centBetrag des Betrages.
      *
      */
-    Geldbetrag(int euroBetrag, int centBetrag)
+    private Geldbetrag(int euroBetrag, int centBetrag)
     {
         _euroBetrag = euroBetrag;
         _centBetrag = centBetrag;
@@ -28,7 +28,7 @@ class Geldbetrag
      * @require euroBetrag != null
      * @require centBetrag != null
      */
-    Geldbetrag(Integer euroBetrag, Integer centBetrag) // NO_UCD (unused code)
+    private Geldbetrag(Integer euroBetrag, Integer centBetrag) // NO_UCD (unused code)
     {
         assert euroBetrag != null : "Vorbedingung verletzt: euroBetrag != null";
         assert centBetrag != null : "Vorbedingung verletzt: centBetrag != null";
@@ -46,7 +46,7 @@ class Geldbetrag
      * @require wert != null
      * @require isValueValid(wert)
      */
-    Geldbetrag(String wert)
+    private Geldbetrag(String wert)
     {
         assert wert != null : "Vorbedingung verletzt: wert != null";
         assert isValueValid(wert) : "Vorbedingung verletzt: isValueValidisValueValid(wert)";
