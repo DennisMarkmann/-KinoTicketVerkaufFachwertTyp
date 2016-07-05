@@ -33,6 +33,7 @@ public class GeldbetragTest
     @Test
     public void testeAddiereGeldbetraege()
     {
+        //Standardfall
         Geldbetrag grundBetrag = Geldbetrag.createGeldbetrag(_wertEins);
         Geldbetrag zuAddierenderBetrag = Geldbetrag.createGeldbetrag(_wertZwei);
         grundBetrag = grundBetrag.addiere(zuAddierenderBetrag);
@@ -42,17 +43,40 @@ public class GeldbetragTest
         centGesamt += euroGesamt * 100;
 
         assertEquals(centGesamt, grundBetrag.getCentBetrag());
+
+        //Extrem: Einzeln knapp unter Max, zusammen drueber
+        grundBetrag = Geldbetrag.createGeldbetrag(999, 10);
+        zuAddierenderBetrag = Geldbetrag.createGeldbetrag(800, 100);
+        grundBetrag = grundBetrag.addiere(zuAddierenderBetrag);
+
+        centGesamt = 10 + 100;
+        euroGesamt = 999 + 800;
+        centGesamt += euroGesamt * 100;
+
+        assertEquals(centGesamt, grundBetrag.getCentBetrag());
     }
 
     @Test
     public void testeBerechneDifferenz()
     {
+        //Standardfall
         Geldbetrag grundBetrag = Geldbetrag.createGeldbetrag(_wertZwei);
         Geldbetrag zuSubtrahierenderBetrag = Geldbetrag.createGeldbetrag(_wertEins);
         grundBetrag = grundBetrag.subtrahiere(zuSubtrahierenderBetrag);
 
         int centGesamt = _wertZweiCent - _wertEinsCent;
         int euroGesamt = _wertZweiEuro - _wertEinsEuro;
+        centGesamt += euroGesamt * 100;
+
+        assertEquals(centGesamt, grundBetrag.getCentBetrag());
+
+        //Extrem: Hoher negativer Wert
+        grundBetrag = Geldbetrag.createGeldbetrag(1, 10);
+        zuSubtrahierenderBetrag = Geldbetrag.createGeldbetrag(998, 100);
+        grundBetrag = grundBetrag.subtrahiere(zuSubtrahierenderBetrag);
+
+        centGesamt = 10 - 100;
+        euroGesamt = 1 - 998;
         centGesamt += euroGesamt * 100;
 
         assertEquals(centGesamt, grundBetrag.getCentBetrag());
@@ -77,19 +101,17 @@ public class GeldbetragTest
     }
 
     @Test
-    public void testeIstBetragNegativ()
+    public void testeIstBetragKleinerGleichNull()
     {
+        //negativ
         Geldbetrag grundBetrag = Geldbetrag.createGeldbetrag(_wertEins);
         Geldbetrag zuSubtrahierenderBetrag = Geldbetrag.createGeldbetrag(_wertZwei);
         grundBetrag = grundBetrag.subtrahiere(zuSubtrahierenderBetrag);
         assertTrue(grundBetrag.istBetragKleinerGleichNull());
-    }
 
-    @Test
-    public void testeIstBetragNull()
-    {
-        Geldbetrag grundBetrag = Geldbetrag.createGeldbetrag(_wertEins);
-        Geldbetrag zuSubtrahierenderBetrag = Geldbetrag.createGeldbetrag(_wertEins);
+        //null
+        grundBetrag = Geldbetrag.createGeldbetrag(_wertEins);
+        zuSubtrahierenderBetrag = Geldbetrag.createGeldbetrag(_wertEins);
         grundBetrag = grundBetrag.subtrahiere(zuSubtrahierenderBetrag);
         assertTrue(grundBetrag.istBetragKleinerGleichNull());
     }
@@ -97,11 +119,22 @@ public class GeldbetragTest
     @Test
     public void testeMultipliziere()
     {
+        //Standardfall
         Geldbetrag geldbetrag = Geldbetrag.createGeldbetrag(_wertEins);
         geldbetrag = geldbetrag.multipliziere(_faktor);
 
         int euroGesamt = _wertEinsEuro * _faktor;
         int centGesamt = _wertEinsCent * _faktor;
+        centGesamt += euroGesamt * 100;
+
+        assertEquals(centGesamt, geldbetrag.getCentBetrag());
+
+        //Extrem: Multiplikation eines hohen Betrages mit dem maximalen Faktor
+        geldbetrag = Geldbetrag.createGeldbetrag(1000, 0);
+        geldbetrag = geldbetrag.multipliziere(30);
+
+        euroGesamt = 1000 * 30;
+        centGesamt = 0 * 30;
         centGesamt += euroGesamt * 100;
 
         assertEquals(centGesamt, geldbetrag.getCentBetrag());
@@ -115,5 +148,4 @@ public class GeldbetragTest
         assertTrue(geldbetrag.equals(geldbetrag2));
     }
 
-    //TODO Extremwerttests
 }

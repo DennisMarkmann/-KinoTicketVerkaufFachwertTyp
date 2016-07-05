@@ -19,15 +19,12 @@ public class Geldbetrag
         if (wert.contains(","))
         {
             centString = wert.substring(wert.indexOf(",") + 1);
+            if (centString.length() != 2)
+            {
+                return true;
+            }
         }
-        else
-        {
-            centString = wert;
-        }
-        if (centString.length() != 2)
-        {
-            return true;
-        }
+
         return false;
     }
 
@@ -83,6 +80,18 @@ public class Geldbetrag
     }
 
     /**
+     * Prueft ob der Wert zu viele Zeichen hat.
+     *
+     * @param wert Eingabewert der geprueft werden soll.
+     *
+     * @return true: Eingabewert hat zu viele Zeichen, false: Bedingung erfüllt
+     */
+    private static boolean containsTooManyNumbers(String wert)
+    {
+        return wert.length() > 9;
+    }
+
+    /**
      * Konstruktor zur erzeugung eines neuen Geldbetrages.
      *
      * @param euroBetrag des Betrages.
@@ -97,7 +106,7 @@ public class Geldbetrag
         assert euroBetrag != null : "Vorbedingung verletzt: euroBetrag != null";
         assert centBetrag != null : "Vorbedingung verletzt: centBetrag != null";
         assert euroBetrag * 100
-                + centBetrag <= 100000 : "Vorbedingung verletzt: euroBetrag * 100 + centBetrag <= 10000";
+                + centBetrag <= 100000 : "Vorbedingung verletzt: euroBetrag * 100 + centBetrag <= 100000";
 
         return new Geldbetrag(euroBetrag, centBetrag);
     }
@@ -126,10 +135,10 @@ public class Geldbetrag
         }
         else
         {
-            centBetrag = Integer.parseInt(wert);
+            euroBetrag = Integer.parseInt(wert);
         }
         assert euroBetrag * 100
-                + centBetrag <= 100000 : "Vorbedingung verletzt: euroBetrag * 100 + centBetrag <= 10000";
+                + centBetrag <= 100000 : "Vorbedingung verletzt: euroBetrag * 100 + centBetrag <= 100000";
 
         return new Geldbetrag(euroBetrag, centBetrag);
     }
@@ -147,7 +156,8 @@ public class Geldbetrag
     {
         assert wert != null : "Vorbedingung verletzt: wert != null";
 
-        if (containsInvalidSymbols(wert) || containsMultipleCommas(wert) || containsInvalidCentValues(wert))
+        if (containsInvalidSymbols(wert) || containsMultipleCommas(wert) || containsInvalidCentValues(wert)
+                || containsTooManyNumbers(wert))
         {
             return false;
         }
@@ -198,15 +208,13 @@ public class Geldbetrag
         return betrag;
     }
 
+    /**
+     * Prueft ob zwei Geldbetraege gleich sind / ihre Summe identisch ist.
+     */
     @Override
     public boolean equals(Object geldBetrag)
     {
-        if (geldBetrag instanceof Geldbetrag && _centBetrag == ((Geldbetrag) geldBetrag).getCentBetrag())
-        {
-            return true;
-        }
-        return false;
-
+        return geldBetrag instanceof Geldbetrag && _centBetrag == ((Geldbetrag) geldBetrag).getCentBetrag();
     }
 
     /**
@@ -243,6 +251,9 @@ public class Geldbetrag
         return sb.toString();
     }
 
+    /**
+     * Generiert den Hashcode.
+     */
     @Override
     public int hashCode()
     {
@@ -266,10 +277,12 @@ public class Geldbetrag
      * @return neuer Geldbetrag.
      *
      * @require faktor > 0
+     * @require faktor <= 30
      */
-    public Geldbetrag multipliziere(int faktor) // NO_UCD (test only)
+    public Geldbetrag multipliziere(int faktor)
     {
         assert faktor > 0 : "Vorbedingung verletzt: faktor > 0";
+        assert faktor <= 30 : "Vorbedingung verletzt: faktor <= 30";
 
         int centBetrag = _centBetrag;
         centBetrag *= faktor;
@@ -294,6 +307,4 @@ public class Geldbetrag
         Geldbetrag differenz = new Geldbetrag(0, centBetrag);
         return differenz;
     }
-
-    //TODO Eingabe von nur Euro als Standard + beliebig lang ermöglichen
 }

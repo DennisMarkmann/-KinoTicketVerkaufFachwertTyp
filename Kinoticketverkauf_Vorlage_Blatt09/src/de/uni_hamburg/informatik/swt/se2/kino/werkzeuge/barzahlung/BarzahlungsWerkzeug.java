@@ -119,6 +119,7 @@ public class BarzahlungsWerkzeug extends ObservableSubwerkzeug
         }
         catch (AssertionError ignore)
         {
+            System.out.println(ignore.getMessage());
             _ausreichenderGeldbetrag = false;
             zeigeFehlertext();
         }
