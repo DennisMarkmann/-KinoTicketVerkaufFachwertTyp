@@ -3,9 +3,9 @@ package de.uni_hamburg.informatik.swt.se2.kino.materialien;
 import java.util.Set;
 
 import de.uni_hamburg.informatik.swt.se2.kino.fachwerte.Datum;
+import de.uni_hamburg.informatik.swt.se2.kino.fachwerte.Geldbetrag;
 import de.uni_hamburg.informatik.swt.se2.kino.fachwerte.Platz;
 import de.uni_hamburg.informatik.swt.se2.kino.fachwerte.Uhrzeit;
-import de.uni_hamburg.informatik.swt.se2.kino.werkzeuge.barzahlung.Geldbetrag;
 
 /**
  * Eine Vorstellung, für die Plätze verkauft und storniert werden können. Die Vorstellung speichert zum einen die Daten der

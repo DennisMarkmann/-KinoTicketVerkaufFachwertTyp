@@ -1,4 +1,4 @@
-package de.uni_hamburg.informatik.swt.se2.kino.werkzeuge.barzahlung;
+package de.uni_hamburg.informatik.swt.se2.kino.fachwerte;
 
 public class Geldbetrag
 {
@@ -120,7 +120,7 @@ public class Geldbetrag
      * @require isValueValid(wert)
      * @require euroBetrag * 100 + centBetrag <= 100000
      */
-    static Geldbetrag createGeldbetrag(String wert)
+    public static Geldbetrag createGeldbetrag(String wert)
     {
         assert wert != null : "Vorbedingung verletzt: wert != null";
         assert isValueValid(wert) : "Vorbedingung verletzt: isValueValidisValueValid(wert)";
@@ -265,7 +265,7 @@ public class Geldbetrag
      *
      * @return true: Betrag ist negativ, false: Betrag ist positiv
      */
-    boolean istBetragKleinerGleichNull()
+    public boolean istBetragKleinerGleichNull()
     {
         return getCentBetrag() <= 0;
     }
@@ -299,7 +299,7 @@ public class Geldbetrag
      *
      * @require betrag != null
      */
-    Geldbetrag subtrahiere(Geldbetrag betrag)
+    public Geldbetrag subtrahiere(Geldbetrag betrag)
     {
         assert betrag != null : "Vorbedingung verletzt: betrag != null";
 

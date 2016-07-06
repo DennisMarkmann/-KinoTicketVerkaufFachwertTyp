@@ -2,9 +2,9 @@
 <class-diagram version="1.1.10" icons="true" automaticImage="JPEG" always-add-relationships="false" 
   generalizations="true" realizations="true" associations="true" dependencies="false" nesting-relationships="true" 
   router="FAN">  
-  <class id="1" language="java" name="de.uni_hamburg.informatik.swt.se2.kino.werkzeuge.barzahlung.Geldbetrag" 
+  <class id="1" language="java" name="de.uni_hamburg.informatik.swt.se2.kino.fachwerte.Geldbetrag" 
     project="Kinoticketverkauf_Vorlage_Blatt09" 
-    file="/Kinoticketverkauf_Vorlage_Blatt09/src/de/uni_hamburg/informatik/swt/se2/kino/werkzeuge/barzahlung/Geldbetrag.java" 
+    file="/Kinoticketverkauf_Vorlage_Blatt09/src/de/uni_hamburg/informatik/swt/se2/kino/fachwerte/Geldbetrag.java" 
     binary="false" corner="BOTTOM_RIGHT">    
     <position height="-1" width="-1" x="429" y="385"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
@@ -13,9 +13,9 @@
       <operations public="true" package="true" protected="true" private="true" static="true"/>    
     </display>  
   </class>  
-  <class id="2" language="java" name="de.uni_hamburg.informatik.swt.se2.kino.werkzeuge.barzahlung.GeldbetragTest" 
+  <class id="2" language="java" name="de.uni_hamburg.informatik.swt.se2.kino.fachwerte.GeldbetragTest" 
     project="Kinoticketverkauf_Vorlage_Blatt09" 
-    file="/Kinoticketverkauf_Vorlage_Blatt09/src/de/uni_hamburg/informatik/swt/se2/kino/werkzeuge/barzahlung/GeldbetragTest.java" 
+    file="/Kinoticketverkauf_Vorlage_Blatt09/src/de/uni_hamburg/informatik/swt/se2/kino/fachwerte/GeldbetragTest.java" 
     binary="false" corner="BOTTOM_RIGHT">    
     <position height="416" width="404" x="757" y="167"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 

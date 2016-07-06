@@ -1,4 +1,4 @@
-package de.uni_hamburg.informatik.swt.se2.kino.werkzeuge.barzahlung;
+package de.uni_hamburg.informatik.swt.se2.kino.fachwerte;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
