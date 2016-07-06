@@ -99,13 +99,14 @@ public class Geldbetrag
      *
      * @require euroBetrag != null
      * @require centBetrag != null
+     * @require  euroBetrag * 100 + centBetrag <= 999999
      */
     public static Geldbetrag create(Integer euroBetrag, Integer centBetrag)
     {
         assert euroBetrag != null : "Vorbedingung verletzt: euroBetrag != null";
         assert centBetrag != null : "Vorbedingung verletzt: centBetrag != null";
         assert euroBetrag * 100
-                + centBetrag <= 100000 : "Vorbedingung verletzt: euroBetrag * 100 + centBetrag <= 100000";
+                + centBetrag <= 999999 : "Vorbedingung verletzt: euroBetrag * 100 + centBetrag <= 999999";
 
         return new Geldbetrag(euroBetrag, centBetrag);
     }
