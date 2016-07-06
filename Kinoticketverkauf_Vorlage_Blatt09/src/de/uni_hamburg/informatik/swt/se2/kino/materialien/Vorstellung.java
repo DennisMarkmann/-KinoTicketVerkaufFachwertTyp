@@ -66,7 +66,7 @@ public class Vorstellung
         _datum = datum;
         _verkauft = new boolean[kinosaal.getAnzahlReihen()][kinosaal.getAnzahlSitzeProReihe()];
         _anzahlVerkauftePlaetze = 0;
-        _geldbetrag = Geldbetrag.createGeldbetrag(0, preis);
+        _geldbetrag = Geldbetrag.create(0, preis);
     }
 
     /**

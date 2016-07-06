@@ -88,7 +88,7 @@ public class Geldbetrag
      */
     private static boolean containsTooManyNumbers(String wert)
     {
-        return wert.length() > 9;
+        return wert.length() > 7;
     }
 
     /**
@@ -99,9 +99,8 @@ public class Geldbetrag
      *
      * @require euroBetrag != null
      * @require centBetrag != null
-     * @require euroBetrag * 100 + centBetrag <= 100000
      */
-    public static Geldbetrag createGeldbetrag(Integer euroBetrag, Integer centBetrag)
+    public static Geldbetrag create(Integer euroBetrag, Integer centBetrag)
     {
         assert euroBetrag != null : "Vorbedingung verletzt: euroBetrag != null";
         assert centBetrag != null : "Vorbedingung verletzt: centBetrag != null";
@@ -118,9 +117,8 @@ public class Geldbetrag
      *
      * @require wert != null
      * @require isValueValid(wert)
-     * @require euroBetrag * 100 + centBetrag <= 100000
      */
-    public static Geldbetrag createGeldbetrag(String wert)
+    public static Geldbetrag create(String wert)
     {
         assert wert != null : "Vorbedingung verletzt: wert != null";
         assert isValueValid(wert) : "Vorbedingung verletzt: isValueValidisValueValid(wert)";
@@ -137,8 +135,6 @@ public class Geldbetrag
         {
             euroBetrag = Integer.parseInt(wert);
         }
-        assert euroBetrag * 100
-                + centBetrag <= 100000 : "Vorbedingung verletzt: euroBetrag * 100 + centBetrag <= 100000";
 
         return new Geldbetrag(euroBetrag, centBetrag);
     }
@@ -152,7 +148,7 @@ public class Geldbetrag
      *
      * @require wert != null
      */
-    private static boolean isValueValid(String wert)
+    public static boolean isValueValid(String wert)
     {
         assert wert != null : "Vorbedingung verletzt: wert != null";
 
@@ -165,18 +161,6 @@ public class Geldbetrag
     }
 
     private final int _centBetrag;
-
-    /**
-     * Konstruktor zur Erzeugung eines neuen Geldbetrages.
-     *
-     * @param euroBetrag des Betrages.
-     * @param centBetrag des Betrages.
-     *
-     */
-    private Geldbetrag(int euroBetrag, int centBetrag)
-    {
-        _centBetrag = centBetrag + euroBetrag * 100;
-    }
 
     /**
      * Konstruktor zur erzeugung eines neuen Geldbetrages.
@@ -246,6 +230,10 @@ public class Geldbetrag
         StringBuffer sb = new StringBuffer();
         sb.append(euroBetrag);
         sb.append(",");
+        if (centBetrag < 10)
+        {
+            sb.append("0");
+        }
         sb.append(centBetrag);
         sb.append(" €");
         return sb.toString();
