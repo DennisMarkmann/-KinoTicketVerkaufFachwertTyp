@@ -7,7 +7,7 @@ public class Geldbetrag
      *
      * @param wert Eingabewert der geprueft werden soll.
      *
-     * @return true: Format des Centbetrages ungueltig, false: Bedingung erfüllt
+     * @return true: Format des Centbetrages ungueltig, false: Bedingung erfuellt.
      *
      * @require wert != null
      */
@@ -33,7 +33,7 @@ public class Geldbetrag
      *
      * @param wert Eingabewert der geprueft werden soll.
      *
-     * @return true: enthaelt ungueltige Zeichen, false: Bedingung erfüllt
+     * @return true: enthaelt ungueltige Zeichen, false: Bedingung erfuellt.
      *
      * @require wert != null
      */
@@ -56,7 +56,7 @@ public class Geldbetrag
      *
      * @param wert Eingabewert der geprueft werden soll.
      *
-     * @return true: zu viele Kommas, false: Bedingung erfüllt
+     * @return true: zu viele Kommas, false: Bedingung erfuellt.
      *
      * @require wert != null
      */
@@ -84,7 +84,7 @@ public class Geldbetrag
      *
      * @param wert Eingabewert der geprueft werden soll.
      *
-     * @return true: Eingabewert hat zu viele Zeichen, false: Bedingung erfüllt
+     * @return true: Eingabewert hat zu viele Zeichen, false: Bedingung erfuellt.
      */
     private static boolean containsTooManyNumbers(String wert)
     {
@@ -112,7 +112,7 @@ public class Geldbetrag
     }
 
     /**
-     * Konstruktor zur erzeugung eines neuen Geldbetrages.
+     * Konstruktor zur Erzeugung eines neuen Geldbetrages.
      *
      * @param wert der Wert der den Euro- und Centanteil des Betrages festlegt. Muss im Format: "EE,CC" vorliegen.
      *
@@ -141,11 +141,11 @@ public class Geldbetrag
     }
 
     /**
-     * Prueft ob diverse gueltigkeits Checks Fehler melden und den Wert als ungueltig einstufen. Gueltiges Format: "EE,CC"
+     * Prueft ob diverse gueltigkeits Checks Fehler melden und den Wert als ungueltig einstufen. Gueltiges Format: "EE,CC".
      *
      * @param wert Eingabewert der geprueft werden soll.
      *
-     * @return true: Wert ist ungueltig, false: Bedingung erfüllt
+     * @return true: Wert ist ungueltig, false: Bedingung erfuellt
      *
      * @require wert != null
      */
@@ -164,13 +164,13 @@ public class Geldbetrag
     private final int _centBetrag;
 
     /**
-     * Konstruktor zur erzeugung eines neuen Geldbetrages.
+     * Konstruktor zur Erzeugung eines neuen Geldbetrages.
      *
      * @param euroBetrag des Betrages.
      * @param centBetrag des Betrages.
      *
      */
-    private Geldbetrag(Integer euroBetrag, Integer centBetrag) // NO_UCD (unused code)
+    private Geldbetrag(Integer euroBetrag, Integer centBetrag)
     {
         _centBetrag = centBetrag + euroBetrag * 100;
     }
@@ -241,7 +241,7 @@ public class Geldbetrag
     }
 
     /**
-     * Generiert den Hashcode.
+     * Generiert den Hashcode aus dem Centbetrag.
      */
     @Override
     public int hashCode()
@@ -252,7 +252,7 @@ public class Geldbetrag
     /**
      * Prueft ob der Betrag negative Werte annimmt.
      *
-     * @return true: Betrag ist negativ, false: Betrag ist positiv
+     * @return true: Betrag ist negativ, false: Betrag ist positiv.
      */
     public boolean istBetragKleinerGleichNull()
     {
@@ -263,6 +263,7 @@ public class Geldbetrag
      * Multipliziert den Geldbetrag mit dem gegebenen Faktor.
      *
      * @param faktor mit dem der Geldbetrag multipliziert werden soll.
+     *
      * @return neuer Geldbetrag.
      *
      * @require faktor > 0
